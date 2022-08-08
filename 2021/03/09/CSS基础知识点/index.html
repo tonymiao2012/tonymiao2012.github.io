@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CSS基础知识点 | Tony Miao Official Website</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="CSS基础知识点 | Tony Miao Official Website">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hello World">
+<meta property="og:url" content="http://tonymiao.com/2022/08/08/hello-world/index.html">
+<meta property="og:site_name" content="Tony Miao Official Website">
+<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-08-08T08:49:17.058Z">
+<meta property="article:modified_time" content="2022-08-08T08:49:17.058Z">
+<meta property="article:author" content="Tony Miao">
+<meta property="article:tag" content="HelloWorld">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>Tony Miao</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/tonymiao2012" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="instagram" href="https://www.instagram.com/tonymiao2012/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:miaozixiong@gmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=50881992" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active" data-rel="All">All<small>(6)</small></div></li>
+    
+        
+            
+            <li><div data-rel="深入JS">深入JS<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="HelloWorld">HelloWorld<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Hexo">Hexo<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="LeetCode">LeetCode<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">About</a><a style="width: 50%"  class="friends">Friends</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="6">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" />
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据结构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>HelloWorld</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All HelloWorld "
+           href="/2022/08/08/hello-world/"
+           data-tag="HelloWorld"
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2022-08-08 16:49:17">2022/08/08</span>
+        </a>
+        
+        <a  class="All 深入JS "
+           href="/2021/04/12/JS-Promise%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/"
+           data-tag="前端"
+           data-author="" >
+            <span class="post-title" title="JS Promise原理及实现">JS Promise原理及实现</span>
+            <span class="post-date" title="2021-04-12 20:12:08">2021/04/12</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/03/11/%E5%A4%8D%E7%9B%98%E8%87%AA%E7%9C%81/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="复盘自省">复盘自省</span>
+            <span class="post-date" title="2021-03-11 22:07:29">2021/03/11</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/03/09/CSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="CSS基础知识点">CSS基础知识点</span>
+            <span class="post-date" title="2021-03-09 13:18:26">2021/03/09</span>
+        </a>
+        
+        <a  class="All LeetCode "
+           href="/2020/10/12/LeetCode%E5%88%B7%E9%A2%98%E5%87%86%E5%A4%87%E4%B9%8B%E5%B8%B8%E7%94%A8JS%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="LeetCode刷题准备之常用JS数据结构">LeetCode刷题准备之常用JS数据结构</span>
+            <span class="post-date" title="2020-10-12 22:54:53">2020/10/12</span>
+        </a>
+        
+        <a  class="All Hexo "
+           href="/2020/10/07/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blog%E7%9A%84%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="使用Hexo搭建静态blog的心得体会">使用Hexo搭建静态blog的心得体会</span>
+            <span class="post-date" title="2020-10-07 17:57:27">2020/10/07</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-CSS基础知识点" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">CSS基础知识点</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2022-08-08 16:49:17'>2021-03-09 13:18</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="toc-text">CSS盒模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS%E4%BC%98%E5%85%88%E7%BA%A7%E7%AE%97%E6%B3%95%E5%92%8C%E5%8F%AF%E7%BB%A7%E6%89%BF%E6%80%A7"><span class="toc-text">CSS优先级算法和可继承性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E9%87%8F%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">数量优先级</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS3%E6%96%B0%E5%A2%9E%E7%9A%84%E4%BC%AA%E7%B1%BB"><span class="toc-text">CSS3新增的伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#position%E8%B7%9Fdisplay%E3%80%81overflow%E3%80%81float%E8%BF%99%E4%BA%9B%E7%89%B9%E6%80%A7%E7%9B%B8%E4%BA%92%E5%8F%A0%E5%8A%A0%E5%90%8E%E4%BC%9A%E6%80%8E%E4%B9%88%E6%A0%B7%EF%BC%9F"><span class="toc-text">position跟display、overflow、float这些特性相互叠加后会怎么样？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#display%E6%9C%89%E5%93%AA%E4%BA%9B%E5%80%BC"><span class="toc-text">display有哪些值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#position%E7%9A%84%E5%80%BC"><span class="toc-text">position的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FLEX%E5%B8%83%E5%B1%80%EF%BC%9F"><span class="toc-text">FLEX布局？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-text">常见的兼容性问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9BFC%E8%A7%84%E8%8C%83-%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%9Ablock-formatting-context-%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="toc-text">对BFC规范(块级格式化上下文：block formatting context)的理解？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0%E6%B5%AE%E5%8A%A8%E5%92%8C%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%EF%BC%9F%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-text">为什么会出现浮动和什么时候需要清除浮动？清除浮动的方式？</span></a>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="CSS盒模型"><a href="#CSS盒模型" class="headerlink" title="CSS盒模型"></a>CSS盒模型</h4><ol>
+<li><p>标准盒子模型：宽度&#x3D;内容的宽度（content）+ border + padding + margin<br>低版本IE盒子模型：宽度&#x3D;内容宽度（content+border+padding）+ margin</p>
+</li>
+<li><p>用来控制元素的盒子模型的解析模式，默认为content-box<br>context-box：W3C的标准盒子模型，设置元素的 height&#x2F;width 属性指的是content部分的高&#x2F;宽<br>border-box：IE传统盒子模型。设置元素的height&#x2F;width属性指的是border + padding + content部分的高&#x2F;宽</p>
+</li>
+</ol>
+<h4 id="CSS优先级算法和可继承性"><a href="#CSS优先级算法和可继承性" class="headerlink" title="CSS优先级算法和可继承性"></a>CSS优先级算法和可继承性</h4><ol>
+<li><p>优先级（就近原则）：!important &gt; [ id &gt; class &gt; tag ]<br>!important 比内联优先级高</p>
+</li>
+<li><p>CSS选择符：id选择器(#myid)、类选择器(.myclassname)、标签选择器(div, h1, p)、相邻选择器(h1 + p)、子选择器（ul &gt; li）、后代选择器（li a）、通配符选择器（*）、属性选择器（a[rel&#x3D;”external”]）、伪类选择器（a:hover, li:nth-child）</p>
+</li>
+</ol>
+<p>可继承的属性：font-size, font-family, color</p>
+<p>不可继承的样式：border, padding, margin, width, height</p>
+<h4 id="数量优先级"><a href="#数量优先级" class="headerlink" title="数量优先级"></a>数量优先级</h4><ol>
+<li><p>有三种不同的方法来选择要设置的样式。其优先级由高到低依次为：</p>
+<p> 通过单独的 ID 或属性选择器进行引用<br> 通过类名在组合中进行引用<br> 通过元素标记进行引用</p>
+</li>
+<li><p>一个规则的特性由基于上述编号列表中选择器类型所创建的三部分编号来评价。我们可以创建一个数字组合来计算优先级，这个数字组合以类似 [0, 0, 0] 的形式开始。当处理一个规则时，每个指向 ID 的选择器都会将第一个数字增加 1，所以数字组合会变为 [1, 0, 0]。</p>
+</li>
+</ol>
+<p>下面是个示例，这个规则的选择器中共有 3个 ID 选择器，所以数字组合变为 [3, 0, 0]：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#heading</span>, <span class="selector-id">#main</span>, <span class="selector-id">#menu</span>, <span class="selector-class">.text</span>, <span class="selector-class">.quote</span>, <span class="selector-class">.boxout</span>, <span class="selector-class">.news</span>, <span class="selector-class">.comments</span>, <span class="selector-tag">p</span>, <span class="selector-tag">blockquote</span>, &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: Consolas;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着，选择器中的类选择器的数量决定了数字组合中的第二位数字。在上例中，共有 5个类选择器，所以规则优先级现在是 [3, 5, 0].</p>
+<p>最后，计算出所有指向元素标记的选择器数量，这个数字被放在数字组合的最后。在上例中有两部分（p 和 blockquote），所以最终的数字组合是 [3, 5, 2]，这就是与其他选择器比较优先级时所需要的全部。</p>
+<p>在每种类型选择器的数量不超过 9个的情况下，可以将数字组合直接写为一个十进制的数字，比如上例中经过量化之后的优先级为 352。其他经过同样规则量化之后的 CSS 规则，若数值比这个数字小，优先级就比它低；数值比它大的，优先级就高于它。当两条规则拥有相同的数值时，采取”就近原则“，即最近被应用的优先。</p>
+<h3 id="CSS3新增的伪类"><a href="#CSS3新增的伪类" class="headerlink" title="CSS3新增的伪类"></a>CSS3新增的伪类</h3><ul>
+<li>p:first-of-type 选择属于其父元素的首个元素  </li>
+<li>p:last-of-type 选择属于其父元素的最后元素  </li>
+<li>p:only-of-type 选择属于其父元素唯一的元素  </li>
+<li>p:only-child 选择属于其父元素的唯一子元素  </li>
+<li>p:nth-child(2) 选择属于其父元素的第二个子元素  </li>
+<li>:enabled :disabled 表单控件的禁用状态  </li>
+<li>:checked 单选框或复选框被选中</li>
+</ul>
+<h3 id="position跟display、overflow、float这些特性相互叠加后会怎么样？"><a href="#position跟display、overflow、float这些特性相互叠加后会怎么样？" class="headerlink" title="position跟display、overflow、float这些特性相互叠加后会怎么样？"></a>position跟display、overflow、float这些特性相互叠加后会怎么样？</h3><p>display属性规定元素应该生成的框的类型；position属性规定元素的定位类型；float属性是一种布局方式，定义元素在哪个方向浮动。<br>类似于优先级机制：position：absolute&#x2F;fixed优先级最高，有他们在时，float不起作用，display值需要调整。float 或者absolute定位的元素，只能是块元素或表格。</p>
+<h3 id="display有哪些值"><a href="#display有哪些值" class="headerlink" title="display有哪些值"></a>display有哪些值</h3><ul>
+<li>inline（默认）–内联  </li>
+<li>none–隐藏  </li>
+<li>block–块显示  </li>
+<li>table–表格显示  </li>
+<li>list-item–项目列表  </li>
+<li>inline-block</li>
+</ul>
+<h3 id="position的值"><a href="#position的值" class="headerlink" title="position的值"></a>position的值</h3><p>static（默认）：按照正常文档流进行排列；<br>relative（相对定位）：不脱离文档流，参考自身静态位置通过 top, bottom, left, right 定位；<br>absolute(绝对定位)：参考距其最近一个不为static的父级元素通过top, bottom, left, right 定位；<br>fixed(固定定位)：所固定的参照对像是可视窗口  </p>
+<h3 id="FLEX布局？"><a href="#FLEX布局？" class="headerlink" title="FLEX布局？"></a>FLEX布局？</h3><h3 id="常见的兼容性问题"><a href="#常见的兼容性问题" class="headerlink" title="常见的兼容性问题"></a>常见的兼容性问题</h3><ol>
+<li><p>不同浏览器的标签默认的margin和padding不一样。<br>*{margin:0;padding:0;}</p>
+</li>
+<li><p>IE6双边距bug：块属性标签float后，又有横行的margin情况下，在IE6显示margin比设置的大。hack：display:inline;将其转化为行内属性。</p>
+</li>
+<li><p>渐进识别的方式，从总体中逐渐排除局部。首先，巧妙的使用“9”这一标记，将IE浏览器从所有情况中分离出来。接着，再次使用“+”将IE8和IE7、IE6分离开来，这样IE8已经独立识别。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attribute">background-color</span>:<span class="number">#f1ee18</span>;<span class="comment">/*所有识别*/</span></span><br><span class="line"><span class="selector-class">.background-color</span>:<span class="number">#00deff</span>\<span class="number">9</span>; <span class="comment">/*IE6、7、8识别*/</span></span><br><span class="line">+<span class="attribute">background-color</span>:<span class="number">#a200ff</span>;<span class="comment">/*IE6、7识别*/</span></span><br><span class="line">_background-<span class="attribute">color</span>:<span class="number">#1e0bd1</span>;<span class="comment">/*IE6识别*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>设置较小高度标签（一般小于10px），在IE6，IE7中高度超出自己设置高度。hack：给超出高度的标签设置overflow:hidden;或者设置行高line-height 小于你设置的高度。</p>
+</li>
+<li><p>IE下，可以使用获取常规属性的方法来获取自定义属性,也可以使用getAttribute()获取自定义属性；Firefox下，只能使用getAttribute()获取自定义属性。解决方法:统一通过getAttribute()获取自定义属性。</p>
+</li>
+<li><p>Chrome 中文界面下默认会将小于 12px 的文本强制按照 12px 显示,可通过加入 CSS 属性 -webkit-text-size-adjust: none; 解决。</p>
+</li>
+<li><p>超链接访问过后hover样式就不出现了，被点击访问过的超链接样式不再具有hover和active了。解决方法是改变CSS属性的排列顺序:L-V-H-A ( love hate ): a:link {} a:visited {} a:hover {} a:active {}</p>
+</li>
+</ol>
+<h3 id="对BFC规范-块级格式化上下文：block-formatting-context-的理解？"><a href="#对BFC规范-块级格式化上下文：block-formatting-context-的理解？" class="headerlink" title="对BFC规范(块级格式化上下文：block formatting context)的理解？"></a>对BFC规范(块级格式化上下文：block formatting context)的理解？</h3><p>BFC规定了内部的Block Box如何布局。<br>定位方案：</p>
+<p>内部的Box会在垂直方向上一个接一个放置。<br>Box垂直方向的距离由margin决定，属于同一个BFC的两个相邻Box的margin会发生重叠。<br>每个元素的margin box 的左边，与包含块border box的左边相接触。<br>BFC的区域不会与float box重叠。<br>BFC是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。<br>计算BFC的高度时，浮动元素也会参与计算。<br>满足下列条件之一就可触发BFC</p>
+<p>根元素，即html<br>float的值不为none（默认）<br>overflow的值不为visible（默认）<br>display的值为inline-block、table-cell、table-caption<br>position的值为absolute或fixed</p>
+<h3 id="为什么会出现浮动和什么时候需要清除浮动？清除浮动的方式？"><a href="#为什么会出现浮动和什么时候需要清除浮动？清除浮动的方式？" class="headerlink" title="为什么会出现浮动和什么时候需要清除浮动？清除浮动的方式？"></a>为什么会出现浮动和什么时候需要清除浮动？清除浮动的方式？</h3><p>浮动元素碰到包含它的边框或者浮动元素的边框停留。由于浮动元素不在文档流中，所以文档流的块框表现得就像浮动框不存在一样。浮动元素会漂浮在文档流的块框上。<br>浮动带来的问题：</p>
+<p>父元素的高度无法被撑开，影响与父元素同级的元素<br>与浮动元素同级的非浮动元素（内联元素）会跟随其后<br>若非第一个元素浮动，则该元素之前的元素也需要浮动，否则会影响页面显示的结构。<br>清除浮动的方式：</p>
+<p>父级div定义height<br>最后一个浮动元素后加空div标签 并添加样式clear:both。<br>包含浮动元素的父标签添加样式overflow为hidden或auto。<br>父级div定义zoom</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 miaozixiong@gmail.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">💰</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2017-2020 TonyMiao
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>Help us with donation</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">alipay</label></span><span><label><input type="radio" name="pay" value="weixin">weixin</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
