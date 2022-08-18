@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Tony Miao Official Website</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="Tony Miao Official Website">
+  <title>React Native优化那些事儿 | Tony Miao Official Website</title>
+  <meta name="keywords" content=" react native ">
+  <meta name="description" content="React Native优化那些事儿 | Tony Miao Official Website">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="总结一下常用的RN优化的一些经验手段 减少re-render先了解下RN的生命周期 当组件的state和props发生改变后，re-render过程会被触发。这个阶段，可以借助shouldComponentUpdate来避免不必要的render，从而提升性能。 123456789101112class Button extends React.Component &amp;#123;  shouldCom">
 <meta property="og:type" content="article">
@@ -59,7 +59,7 @@
 
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/" class="avatar_target">
     <img class="avatar" src="/img/avatar.jpg" />
@@ -366,12 +366,58 @@
         </div>
     </div>
 </aside>
-<div id="post" class="index">
+<div id="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-React-Native优化那些事儿" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99"><span class="toc-text">关于本站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E5%B9%B3%E5%8F%B0"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
+        <h1 class="article-title">React Native优化那些事儿</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="ReactNative">ReactNative</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color3">react native</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2022-08-18 14:27:11'>2022-08-15 11:18</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%8F%E5%B0%91re-render"><span class="toc-text">减少re-render</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%8F%E5%B0%91%E6%B8%B2%E6%9F%93%E5%8E%8B%E5%8A%9B"><span class="toc-text">减少渲染压力</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="toc-text">预加载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bundle%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="toc-text">Bundle加载过程：</span></a>
     
 <style>
     .left-col .switch-btn,
@@ -384,31 +430,50 @@
     }
 </style>
 </div>
-            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
-<blockquote>
-<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
-</blockquote>
-<blockquote>
-<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
-</blockquote>
-<blockquote>
-<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
-</blockquote>
-<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
-<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
-<h2 id="关于本站"><a href="#关于本站" class="headerlink" title="关于本站"></a>关于本站</h2><p><strong>Top Coder</strong> 我的个人站，记录了平时一些心得体会和人生思考。</p>
-<p>学如逆水行舟，不进则退。每日的点点滴滴，终究会从量变到质变。</p>
-<p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
-<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
-<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>这个博客基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 生成，主题使用了github上开源的 <a target="_blank" rel="noopener" href="https://github.com/yelog/hexo-theme-3-hexo">3-hexo</a> 。使用说明戳这里<a target="_blank" rel="noopener" href="https://yelog.org/2017/03/23/3-hexo-instruction/">3-hero使用说明</a></p>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>总结一下常用的RN优化的一些经验手段</p>
+<h4 id="减少re-render"><a href="#减少re-render" class="headerlink" title="减少re-render"></a>减少re-render</h4><p>先了解下RN的生命周期<br><img src="/../image/RN%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="生命周期"></p>
+<p>当组件的state和props发生改变后，re-render过程会被触发。这个阶段，可以借助<a target="_blank" rel="noopener" href="https://react.docschina.org/docs/optimizing-performance.html#shouldcomponentupdate-in-actionsx">shouldComponentUpdate</a>来避免不必要的render，从而提升性能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Button</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">shouldComponentUpdate</span>(<span class="params">nextProps, nextState</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">color</span> !== nextProps.<span class="property">color</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span> /&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大部分情况下，可以使用React.PureComponent来替代手写shouldComponentUpdate。但它只进行浅比较，所以当 props 或者 state 某种程度是可变的话，浅比较会有遗漏，那你就不能使用它了。所以涉及数据嵌套层级过多时，比如说你 props 传入了一个两层嵌套的 Object，这时候 shouldComponentUpdate 就很为难了</p>
+<p>另一个选择就是使用React新加入的一个能力，专门针对函数组件的高阶组件：<a target="_blank" rel="noopener" href="https://react.docschina.org/docs/react-api.html#reactmemo">React.memo</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> memoButton = <span class="title class_">React</span>.<span class="title function_">memo</span>(<span class="keyword">function</span> <span class="title function_">myComponent</span>(<span class="params">props</span>) &#123;</span><br><span class="line">  <span class="comment">// 使用props进行渲染</span></span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span> /&gt;</span></span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，默认情况下React.memo是进行浅比较的。因为它的实现就是高阶组件，在原有的组件进行了一层封装。</p>
+<h4 id="减少渲染压力"><a href="#减少渲染压力" class="headerlink" title="减少渲染压力"></a>减少渲染压力</h4><ol>
+<li>减少嵌套层级数量（React.Fragment）</li>
+<li>减少GPU过度绘制</li>
+</ol>
+<h4 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h4><p>预加载优化，主要分几个关键的阶段：</p>
+<ol>
+<li>终端页面</li>
+<li>引擎加载</li>
+<li>JS包加载</li>
+<li>JS执行</li>
+<li>渲染页面</li>
+</ol>
+<h3 id="Bundle加载过程："><a href="#Bundle加载过程：" class="headerlink" title="Bundle加载过程："></a>Bundle加载过程：</h3>
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 miaozixiong@gmail.com </span>
+    </div>
+</article>
 
-        </article>
-        
-        <p>
-            <a  class="dashang" onclick="dashangToggle()">赏</a>
-        </p>
-        
-        
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">💰</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">
@@ -417,11 +482,11 @@
 <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
     </div>
-</div>
-<div class="full-toc">
-    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
 <a class="" id="rocket" ></a>
 
+    </div>
 </div>
 
 <div class="hide_box" onclick="dashangToggle()"></div>

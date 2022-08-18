@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>JS Promise原理及实现 | Tony Miao Official Website</title>
-  <meta name="keywords" content=" 前端 ">
-  <meta name="description" content="JS Promise原理及实现 | Tony Miao Official Website">
+  <title>React知识点滴 | Tony Miao Official Website</title>
+  <meta name="keywords" content=" 面试 ">
+  <meta name="description" content="React知识点滴 | Tony Miao Official Website">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="总结一下常用的RN优化的一些经验手段 减少re-render先了解下RN的生命周期 当组件的state和props发生改变后，re-render过程会被触发。这个阶段，可以借助shouldComponentUpdate来避免不必要的render，从而提升性能。 123456789101112class Button extends React.Component &amp;#123;  shouldCom">
 <meta property="og:type" content="article">
@@ -368,9 +368,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-JS-Promise原理及实现" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-React知识点滴" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">JS Promise原理及实现</h1>
+        <h1 class="article-title">React知识点滴</h1>
     
     <div class="article-meta">
         
@@ -380,7 +380,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="深入JS">深入JS</a>
+            <a  data-rel="React">React</a>
             
         </span>
         
@@ -388,14 +388,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color3">前端</a>
+            <a class="color3">面试</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            Created At : <time class="date" title='Updated At: 2022-08-08 16:49:17'>2021-04-12 20:12</time>
+            Created At : <time class="date" title='Updated At: 2022-08-18 14:26:17'>2022-08-15 11:59</time>
         
     </div>
     <div class="article-meta">
@@ -417,7 +417,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise-A-%E8%A7%84%E8%8C%83"><span class="toc-text">Promise A+规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-text">Promise三种状态</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8react%E4%B8%AD%EF%BC%8CsetState%E6%98%AF%E5%BC%82%E6%AD%A5%E8%BF%98%E6%98%AF%E5%90%8C%E6%AD%A5%EF%BC%9F"><span class="toc-text">在react中，setState是异步还是同步？</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -433,28 +433,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Promise-A-规范"><a href="#Promise-A-规范" class="headerlink" title="Promise A+规范"></a>Promise A+规范</h1><p>Promise是JS异步编程的解决方案之一。它的内部实现相当于一个状态机，具备不同的状态间切换。</p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ol>
-<li>promise 是一个有then方法的对象或者是函数，行为遵循本规范</li>
-<li>thenable 是一个有then方法的对象或者是函数</li>
-<li>value 是promise状态成功时的值，也就是resolve的参数, 包括各种数据类型, 也包括undefined&#x2F;thenable或者是 promise</li>
-<li>reason 是promise状态失败时的值, 也就是reject的参数, 表示拒绝的原因</li>
-<li>exception 是一个使用throw抛出的异常值</li>
-<li>规范详见<a target="_blank" rel="noopener" href="https://promisesaplus.com/">点这个</a></li>
-</ol>
-<h2 id="Promise三种状态"><a href="#Promise三种状态" class="headerlink" title="Promise三种状态"></a>Promise三种状态</h2><ol>
-<li><p>pending</p>
-<p> 1.1 初始的状态, 可改变.<br> 1.2 一个promise在resolve或者reject前都处于这个状态。<br> 1.3 可以通过 resolve -&gt; fulfilled 状态;<br> 1.4 可以通过 reject -&gt; rejected 状态;</p>
-</li>
-<li><p>fulfilled</p>
-<p> 2.1 最终态, 不可变.<br> 2.2 一个promise被resolve后会变成这个状态.<br> 2.3 必须拥有一个value值</p>
-</li>
-<li><p>rejected</p>
-<p> 3.1 最终态, 不可变.<br> 3.2 一个promise被reject后会变成这个状态<br> 3.3 必须拥有一个reason</p>
-</li>
-</ol>
-<p>Tips: 总结一下, 就是promise的状态流转是这样的<br>pending -&gt; resolve(value) -&gt; fulfilled<br>pending -&gt; reject(reason) -&gt; rejected</p>
+        <h4 id="在react中，setState是异步还是同步？"><a href="#在react中，setState是异步还是同步？" class="headerlink" title="在react中，setState是异步还是同步？"></a>在react中，setState是异步还是同步？</h4><p>样例代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(props);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">      <span class="attr">data</span>: <span class="string">&#x27;data&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">      <span class="attr">data</span>: <span class="string">&#x27;did mount state&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;did mount state &quot;</span>, <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">data</span>);</span><br><span class="line">    <span class="comment">// did mount state data</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">        <span class="attr">data</span>: <span class="string">&#x27;setTimeout&#x27;</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setTimeout &quot;</span>, <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">data</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>第一额结果输出为data，而第二个会输出setTimeout。也就是说第一个setState是异步，第二个setState又成了同步。</p>
+<p>先说下结论吧：</p>
+<p>只要你进入了 react 的调度流程，那就是异步的。只要你没有进入 react 的调度流程，那就是同步的。什么东西不会进入 react 的调度流程？ setTimeout setInterval ，直接在 DOM 上绑定原生事件等。这些都不会走 React 的调度流程，你在这种情况下调用 setState ，那这次 setState 就是同步的。 否则就是异步的。</p>
+<p>而 setState 同步执行的情况下， DOM 也会被同步更新，也就意味着如果你多次 setState ，会导致多次更新，这是毫无意义并且浪费性能的。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350332132">详细解析</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//setTimeout事件</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>,&#123; <span class="title class_">Component</span> &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Count</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span>&#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">props</span>)&#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">            <span class="attr">count</span>:<span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">p</span>&gt;</span>count:&#123;this.state.count&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.btnAction&#125;</span>&gt;</span>增加<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    btnAction = <span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">//不能直接修改state，需要通过setState进行修改</span></span><br><span class="line">        <span class="comment">//同步</span></span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">                <span class="attr">count</span>: <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">count</span> + <span class="number">1</span></span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">count</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">Count</span>;</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//自定义dom事件</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>,&#123; <span class="title class_">Component</span> &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Count</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span>&#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">props</span>)&#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">            <span class="attr">count</span>:<span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">p</span>&gt;</span>count:&#123;this.state.count&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn&quot;</span>&gt;</span>绑定点击事件<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">//自定义dom事件，也是同步修改</span></span><br><span class="line">        <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#btn&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>,<span class="function">()=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">                <span class="attr">count</span>: <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">count</span> + <span class="number">1</span></span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">count</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">Count</span>;</span><br></pre></td></tr></table></figure>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 miaozixiong@gmail.com </span>
     </div>
