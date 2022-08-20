@@ -6,17 +6,26 @@
   <meta name="keywords" content="">
   <meta name="description" content="JS深拷贝，浅拷贝 | Tony Miao Official Website">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="基础知识基础类型: number string boolean array object  enum: 枚举  123456789&#x2F;* 活动状态枚举 *&#x2F;enum ActivityStatus &amp;#123;  &#x2F;* 未开始 *&#x2F;  NOT_START,  &#x2F;* 已开始 *&#x2F;  STARTED&amp;#125;const status &#x3D; ActivityStatus.NOT_START   type,">
+<meta name="description" content="底层核心原理 在History路由模式下，均机遇html5新增的history API， pushState，replaceState，用法如下：12history.pushState(state, title, url);history.replaceState(state, title, url);  即跳转到URL路径（与当前页面在同一个域，形如一个网站的loaction.pathname部">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TS基础总结">
-<meta property="og:url" content="http://tonymiao.com/2022/08/19/TS%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="前端路由原理">
+<meta property="og:url" content="http://tonymiao.com/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Tony Miao Official Website">
-<meta property="og:description" content="基础知识基础类型: number string boolean array object  enum: 枚举  123456789&#x2F;* 活动状态枚举 *&#x2F;enum ActivityStatus &amp;#123;  &#x2F;* 未开始 *&#x2F;  NOT_START,  &#x2F;* 已开始 *&#x2F;  STARTED&amp;#125;const status &#x3D; ActivityStatus.NOT_START   type,">
+<meta property="og:description" content="底层核心原理 在History路由模式下，均机遇html5新增的history API， pushState，replaceState，用法如下：12history.pushState(state, title, url);history.replaceState(state, title, url);  即跳转到URL路径（与当前页面在同一个域，形如一个网站的loaction.pathname部">
 <meta property="og:locale">
-<meta property="article:published_time" content="2022-08-19T06:19:03.000Z">
-<meta property="article:modified_time" content="2022-08-19T06:21:04.120Z">
+<meta property="og:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E7%94%A8%E6%B3%95.png">
+<meta property="og:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E5%85%A5%E5%8F%A3.png">
+<meta property="og:image" content="http://tonymiao.com/image/switchjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/providerjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/switchjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/router1.png">
+<meta property="og:image" content="http://tonymiao.com/image/routercontext.png">
+<meta property="article:published_time" content="2022-08-20T13:30:15.000Z">
+<meta property="article:modified_time" content="2022-08-20T16:12:41.647Z">
 <meta property="article:author" content="Tony Miao">
+<meta property="article:tag" content="前端router">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E7%94%A8%E6%B3%95.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -147,7 +156,7 @@
 
 
 <ul>
-    <li><div class="all active" data-rel="All">All<small>(10)</small></div></li>
+    <li><div class="all active" data-rel="All">All<small>(12)</small></div></li>
     
         
             
@@ -197,6 +206,14 @@
             
         
     
+        
+            
+            <li><div data-rel="TypeScript">TypeScript<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
 </ul>
 <div class="left-bottom">
     <div class="menus">
@@ -207,7 +224,7 @@
     </div>
     <div><a class="about  hasFriend  site_url"  href="/about">About</a><a style="width: 50%"  class="friends">Friends</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="10">
+<input type="hidden" id="yelog_site_posts_number" value="12">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -262,6 +279,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端router</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>数据结构</a>
             </li>
         
@@ -285,6 +306,22 @@
     <nav id="title-list-nav">
         
         <a  class="All "
+           href="/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/"
+           data-tag="前端router"
+           data-author="" >
+            <span class="post-title" title="前端路由原理">前端路由原理</span>
+            <span class="post-date" title="2022-08-20 21:30:15">2022/08/20</span>
+        </a>
+        
+        <a  class="All "
+           href="/2022/08/19/JS%E4%B8%AD%E7%9A%84this%E3%80%81%E9%97%AD%E5%8C%85%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS中的this、闭包、作用域链">JS中的this、闭包、作用域链</span>
+            <span class="post-date" title="2022-08-19 14:31:58">2022/08/19</span>
+        </a>
+        
+        <a  class="All TypeScript "
            href="/2022/08/19/TS%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/"
            data-tag=""
            data-author="" >

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>前端路由原理 | Tony Miao Official Website</title>
+  <meta name="keywords" content=" 前端router ">
+  <meta name="description" content="前端路由原理 | Tony Miao Official Website">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="底层核心原理 在History路由模式下，均机遇html5新增的history API， pushState，replaceState，用法如下：12history.pushState(state, title, url);history.replaceState(state, title, url);  即跳转到URL路径（与当前页面在同一个域，形如一个网站的loaction.pathname部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端路由原理">
+<meta property="og:url" content="http://tonymiao.com/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Tony Miao Official Website">
+<meta property="og:description" content="底层核心原理 在History路由模式下，均机遇html5新增的history API， pushState，replaceState，用法如下：12history.pushState(state, title, url);history.replaceState(state, title, url);  即跳转到URL路径（与当前页面在同一个域，形如一个网站的loaction.pathname部">
+<meta property="og:locale">
+<meta property="og:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E7%94%A8%E6%B3%95.png">
+<meta property="og:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E5%85%A5%E5%8F%A3.png">
+<meta property="og:image" content="http://tonymiao.com/image/switchjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/providerjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/switchjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/router1.png">
+<meta property="og:image" content="http://tonymiao.com/image/routercontext.png">
+<meta property="article:published_time" content="2022-08-20T13:30:15.000Z">
+<meta property="article:modified_time" content="2022-08-20T16:12:41.647Z">
+<meta property="article:author" content="Tony Miao">
+<meta property="article:tag" content="前端router">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E7%94%A8%E6%B3%95.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>Tony Miao</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/tonymiao2012" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="instagram" href="https://www.instagram.com/tonymiao2012/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:miaozixiong@gmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=50881992" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active" data-rel="All">All<small>(12)</small></div></li>
+    
+        
+            
+            <li><div data-rel="深入JS">深入JS<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="HelloWorld">HelloWorld<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Hexo">Hexo<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="LeetCode">LeetCode<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="React">React<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ReactNative">ReactNative<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="TypeScript">TypeScript<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">About</a><a style="width: 50%"  class="friends">Friends</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="12">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" />
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>面试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端router</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据结构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>HelloWorld</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react native</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All "
+           href="/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/"
+           data-tag="前端router"
+           data-author="" >
+            <span class="post-title" title="前端路由原理">前端路由原理</span>
+            <span class="post-date" title="2022-08-20 21:30:15">2022/08/20</span>
+        </a>
+        
+        <a  class="All "
+           href="/2022/08/19/JS%E4%B8%AD%E7%9A%84this%E3%80%81%E9%97%AD%E5%8C%85%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS中的this、闭包、作用域链">JS中的this、闭包、作用域链</span>
+            <span class="post-date" title="2022-08-19 14:31:58">2022/08/19</span>
+        </a>
+        
+        <a  class="All TypeScript "
+           href="/2022/08/19/TS%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="TS基础总结">TS基础总结</span>
+            <span class="post-date" title="2022-08-19 14:19:03">2022/08/19</span>
+        </a>
+        
+        <a  class="All "
+           href="/2022/08/18/JS%E6%B7%B1%E6%8B%B7%E8%B4%9D%EF%BC%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS深拷贝，浅拷贝">JS深拷贝，浅拷贝</span>
+            <span class="post-date" title="2022-08-18 16:02:57">2022/08/18</span>
+        </a>
+        
+        <a  class="All React "
+           href="/2022/08/15/React%E7%9F%A5%E8%AF%86%E7%82%B9%E6%BB%B4/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="React知识点滴（持续更新中）">React知识点滴（持续更新中）</span>
+            <span class="post-date" title="2022-08-15 11:59:20">2022/08/15</span>
+        </a>
+        
+        <a  class="All ReactNative "
+           href="/2022/08/15/React-Native%E4%BC%98%E5%8C%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"
+           data-tag="react native"
+           data-author="" >
+            <span class="post-title" title="React Native优化那些事儿(持续更新中)">React Native优化那些事儿(持续更新中)</span>
+            <span class="post-date" title="2022-08-15 11:18:02">2022/08/15</span>
+        </a>
+        
+        <a  class="All HelloWorld "
+           href="/2022/08/08/hello-world/"
+           data-tag="HelloWorld"
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2022-08-08 16:49:17">2022/08/08</span>
+        </a>
+        
+        <a  class="All 深入JS "
+           href="/2021/04/12/JS-Promise%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/"
+           data-tag="前端"
+           data-author="" >
+            <span class="post-title" title="JS Promise原理及实现">JS Promise原理及实现</span>
+            <span class="post-date" title="2021-04-12 20:12:08">2021/04/12</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/03/11/%E5%A4%8D%E7%9B%98%E8%87%AA%E7%9C%81/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="复盘自省">复盘自省</span>
+            <span class="post-date" title="2021-03-11 22:07:29">2021/03/11</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/03/09/CSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="CSS基础知识点">CSS基础知识点</span>
+            <span class="post-date" title="2021-03-09 13:18:26">2021/03/09</span>
+        </a>
+        
+        <a  class="All LeetCode "
+           href="/2020/10/12/LeetCode%E5%88%B7%E9%A2%98%E5%87%86%E5%A4%87%E4%B9%8B%E5%B8%B8%E7%94%A8JS%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="LeetCode刷题准备之常用JS数据结构">LeetCode刷题准备之常用JS数据结构</span>
+            <span class="post-date" title="2020-10-12 22:54:53">2020/10/12</span>
+        </a>
+        
+        <a  class="All Hexo "
+           href="/2020/10/07/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blog%E7%9A%84%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="使用Hexo搭建静态blog的心得体会">使用Hexo搭建静态blog的心得体会</span>
+            <span class="post-date" title="2020-10-07 17:57:27">2020/10/07</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-前端路由原理" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">前端路由原理</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">前端router</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2022-08-21 00:12:41'>2022-08-20 21:30</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="toc-text">底层核心原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vue-router"><span class="toc-text">vue-router</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90"><span class="toc-text">路由源码浅析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#react-router"><span class="toc-text">react-router</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="底层核心原理"><a href="#底层核心原理" class="headerlink" title="底层核心原理"></a>底层核心原理</h4><ol>
+<li>在<strong>History</strong>路由模式下，均机遇html5新增的history API， <strong>pushState</strong>，<strong>replaceState</strong>，用法如下：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">history.<span class="title function_">pushState</span>(state, title, url);</span><br><span class="line">history.<span class="title function_">replaceState</span>(state, title, url);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>即跳转到URL路径（与当前页面在同一个域，形如一个网站的loaction.pathname部分），指定新页面的标题title，但是浏览器目前都忽略这个值，因此这里一般使用null，state为关联新地址的状态对象。</p>
+<p>二者异同点：</p>
+<blockquote>
+<p>pushState会增加一条浏览记录，而replaceState会替换当前历史记录。<br>两者均不会刷新当前页面，也不会发生真正的跳转。而是仅仅改变了地址栏URL</p>
+</blockquote>
+<ol start="2">
+<li>在Hash路由模式下，基于location.hash &#x3D; pathStr来改变网站路径。pathStr代表网址中#号后面直到search的部分。与history<strong>不同</strong>的是，如果两次赋值一样的时候，并不会触发hashchange和popstate方法。</li>
+</ol>
+<h4 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h4><ol>
+<li>vue-router实现相对没有那么难理解。首先从使用方式入手，在vue实例初始化时候，会注入路由的router模块：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&#x27;./router/index&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line">  router,</span><br><span class="line">  store, <span class="comment">// ++</span></span><br><span class="line">  <span class="attr">components</span>: &#123; <span class="title class_">App</span> &#125;,</span><br><span class="line">  <span class="attr">template</span>: <span class="string">&#x27;&lt;App/&gt;&#x27;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li>在根vue组件，可以看到router-view和router-link两种使用方法</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 使用 router-link 组件来导航. --&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 通过传入 `to` 属性指定链接. --&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/&quot;</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/about&quot;</span>&gt;</span>About<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/login&quot;</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 路由出口 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    &lt;transition name=&quot;slide-left&quot;&gt;--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--      &lt;router-view&gt;&lt;/router-view&gt;--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    &lt;/transition&gt;--&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>紧接着看下路由实例的声明：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">VueRouter</span> <span class="keyword">from</span> <span class="string">&#x27;vue-router&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> routes <span class="keyword">from</span> <span class="string">&#x27;./routers&#x27;</span>;     <span class="comment">// 路由配置表</span></span><br><span class="line"><span class="comment">// 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>(<span class="title class_">VueRouter</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 定义 (路由) 组件。</span></span><br><span class="line"><span class="comment">// 可以从其他文件 import 进来</span></span><br><span class="line"><span class="comment">// import Home from &#x27;../views/Home&#x27;;</span></span><br><span class="line"><span class="comment">// 使用路由懒加载</span></span><br><span class="line"><span class="comment">// const About = () =&gt; import(&#x27;../views/About.vue&#x27;);</span></span><br><span class="line"><span class="comment">// const Login = () =&gt; import(&#x27;../components/Login.vue&#x27;);</span></span><br><span class="line"><span class="comment">// const Layout = () =&gt; import(&#x27;../views/Layout.vue&#x27;);</span></span><br><span class="line"><span class="comment">// const Bar = &#123; template: &#x27;&lt;div&gt;bar&lt;/div&gt;&#x27; &#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 定义路由</span></span><br><span class="line"><span class="comment">// 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是</span></span><br><span class="line"><span class="comment">// 通过 Vue.extend() 创建的组件构造器，</span></span><br><span class="line"><span class="comment">// 或者，只是一个组件配置对象。</span></span><br><span class="line"><span class="comment">// const routes = [</span></span><br><span class="line"><span class="comment">//   &#123; path: &#x27;/&#x27;, component: () =&gt; import(/* webpackChunkName: &quot;Home&quot; */ &#x27;../views/Home.vue&#x27;) &#125;,</span></span><br><span class="line"><span class="comment">//   &#123; path: &#x27;/about&#x27;, component: About &#125;,</span></span><br><span class="line"><span class="comment">//   &#123; path: &#x27;/bar&#x27;, component: Bar &#125;,</span></span><br><span class="line"><span class="comment">//   &#123; path: &#x27;/login&#x27;, component: Login &#125;,</span></span><br><span class="line"><span class="comment">//   &#123; path: &#x27;/layout&#x27;, component: Layout &#125;</span></span><br><span class="line"><span class="comment">// ];</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 创建 router 实例，然后传 `routes` 配置</span></span><br><span class="line"><span class="comment">// 你还可以传别的配置参数, 不过先这么简单着吧。</span></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> <span class="title class_">VueRouter</span>(&#123;</span><br><span class="line">  <span class="comment">// mode: &#x27;history&#x27;, // 默认 hash 模式</span></span><br><span class="line">  routes <span class="comment">// (缩写) 相当于 routes: routes</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// if (to.name !== &#x27;Login&#x27; &amp;&amp; !isAuthenticated) next(&#123; name: &#x27;Login&#x27; &#125;)</span></span><br><span class="line">  <span class="comment">// else next()</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">next</span>();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">afterEach</span>(<span class="function">(<span class="params">to, <span class="keyword">from</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;from：&#x27;</span>, <span class="keyword">from</span>);</span><br><span class="line">  <span class="comment">// if (window.ActiveXObject || &#x27;ActiveXObject&#x27; in window) &#123;</span></span><br><span class="line">  <span class="comment">//   CollectGarbage();</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="title function_">setTitle</span>(to, router.<span class="property">app</span>);</span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">scrollTo</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br><span class="line"><span class="comment">// 4. 创建和挂载根实例。</span></span><br><span class="line"><span class="comment">// 记得要通过 router 配置参数注入路由，</span></span><br><span class="line"><span class="comment">// 从而让整个应用都有路由功能</span></span><br><span class="line"><span class="comment">// import router from &#x27;./router/index&#x27;</span></span><br><span class="line"><span class="comment">// new Vue(&#123;</span></span><br><span class="line"><span class="comment">//   el: &#x27;#app&#x27;,</span></span><br><span class="line"><span class="comment">//   router,</span></span><br><span class="line"><span class="comment">//   components: &#123; App &#125;,</span></span><br><span class="line"><span class="comment">//   template: &#x27;&lt;App/&gt;&#x27;</span></span><br><span class="line"><span class="comment">// &#125;)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>项目中还需要定义路由和路由组件的关系，进阶还可以配置异步路由组件：</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">About</span> = (<span class="params"></span>) =&gt; <span class="title function_">import</span>(<span class="string">&#x27;../views/About.vue&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Bar</span> = &#123; <span class="attr">template</span>: <span class="string">&#x27;&lt;div&gt;bar&lt;/div&gt;&#x27;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;home&#x27;</span>,</span><br><span class="line">    <span class="comment">// title: &#x27;首页&#x27;,</span></span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;首页&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="comment">/* webpackChunkName: &quot;Home&quot; */</span> <span class="string">&#x27;../views/Home.vue&#x27;</span>)     <span class="comment">// webpack异步组件</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123; <span class="comment">// 测试</span></span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/test&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">    <span class="attr">title</span>: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;测试页面&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">component</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// require([&#x27;@/components/diy-tool-box/index.vue&#x27;], resolve)</span></span><br><span class="line">      <span class="title function_">import</span>(<span class="string">&#x27;../views/Home.vue&#x27;</span>);</span><br><span class="line">      <span class="comment">// require([&#x27;@/module/map/MapConsole.vue&#x27;], resolve);</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/about&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;首页&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">component</span>: <span class="title class_">About</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/bar&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;首页&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">component</span>: <span class="title class_">Bar</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/login&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;登录&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="comment">/* webpackChunkName: &quot;Home&quot; */</span> <span class="string">&#x27;../components/login.vue&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>以上我们就完成了从路由表、路由组件的配置，到vue实例的路由注入，再加上vue组件使用路由的整个初始化过程。</p>
+<hr>
+<h5 id="路由源码浅析"><a href="#路由源码浅析" class="headerlink" title="路由源码浅析"></a>路由源码浅析</h5><p>Vue.use方法接收了一个install方法的对象或者类作为参数，例如注入一个全局的modal组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Modal</span> <span class="keyword">from</span> <span class="string">&#x27;./modal.vue&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">MyModal</span> = &#123;</span><br><span class="line">    <span class="title function_">install</span>(<span class="params">Vue</span>)&#123; <span class="comment">// install 会被传入Vue 参数</span></span><br><span class="line">        <span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;Modal&#x27;</span>, <span class="title class_">Modal</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>(<span class="title class_">MyModal</span>);</span><br><span class="line"><span class="comment">// 这样就可以在template 中直接使用&lt;Modal&gt;&lt;/Modal&gt; 了。</span></span><br></pre></td></tr></table></figure>
+
+<p>同理这种思路，沿袭到VueRouter根文件中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; install &#125; <span class="keyword">from</span> <span class="string">&#x27;./install&#x27;</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">VueRouter</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="attr">install</span>: <span class="function">() =&gt;</span> <span class="keyword">void</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">VueRouter</span>.<span class="property">install</span> = install</span><br></pre></td></tr></table></figure>
+
+<p>继续追溯到install.js:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">View</span> <span class="keyword">from</span> <span class="string">&#x27;./components/view&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Link</span> <span class="keyword">from</span> <span class="string">&#x27;./components/link&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">install</span>(<span class="params">Vue</span>) &#123;</span><br><span class="line">...</span><br><span class="line">    <span class="title class_">Vue</span>.<span class="title function_">mixin</span>(&#123;</span><br><span class="line">        <span class="title function_">beforeCreate</span>(<span class="params"></span>) &#123; <span class="comment">// 这里使得_route 属性具备响应能力</span></span><br><span class="line">        <span class="title class_">Vue</span>.<span class="property">util</span>.<span class="title function_">defineReactive</span>(<span class="variable language_">this</span>, <span class="string">&#x27;_route&#x27;</span>, <span class="variable language_">this</span>.<span class="property">_router</span>.<span class="property">history</span>.<span class="property">current</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">destroyed</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="comment">// Vue.$router实例声明</span></span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="title class_">Vue</span>.<span class="property"><span class="keyword">prototype</span></span>, <span class="string">&#x27;$router&#x27;</span>, &#123;</span><br><span class="line">    get () &#123; <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">_routerRoot</span>.<span class="property">_router</span> &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="title class_">Vue</span>.<span class="property"><span class="keyword">prototype</span></span>, <span class="string">&#x27;$route&#x27;</span>, &#123;</span><br><span class="line">    get () &#123; <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">_routerRoot</span>.<span class="property">_route</span> &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 走到下面两行代码已经水落石出了，这也是我们引入vue-router 后</span></span><br><span class="line"><span class="comment">// 就能全局使用&lt;router-view&gt; 和&lt;router-link&gt; 的原因</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;RouterView&#x27;</span>, <span class="title class_">View</span>)</span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;RouterLink&#x27;</span>, <span class="title class_">Link</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不难得出结论，vue-router 是Vue 应用的一个全局组件，一次注册便可以处处使用，且所有的vue 实例都能访问到Vue 原型对象上的$router 和$route 对象，因此在使用函数式跳转时是及其方便的。</p>
+<p>那我们继续，在实例化VueRouter 时，有routes 和mode 参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> <span class="title class_">VueRouter</span>(&#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;history&#x27;</span>, <span class="comment">// 默认为hash模式</span></span><br><span class="line">    <span class="attr">routes</span>: []</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>进入构造器constuctor:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">constructor</span> (<span class="attr">options</span>: <span class="title class_">RouterOptions</span> = &#123;&#125;) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">fallback</span> =</span><br><span class="line">        mode === <span class="string">&#x27;history&#x27;</span> &amp;&amp; !supportsPushState &amp;&amp; options.<span class="property">fallback</span> !== <span class="literal">false</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">fallback</span>) &#123;</span><br><span class="line">        mode = <span class="string">&#x27;hash&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> (mode) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;history&#x27;</span>:</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">history</span> = <span class="keyword">new</span> <span class="title class_">HTML5History</span>(<span class="variable language_">this</span>, options.<span class="property">base</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;hash&#x27;</span>:</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">history</span> = <span class="keyword">new</span> <span class="title class_">HashHistory</span>(<span class="variable language_">this</span>, options.<span class="property">base</span>, <span class="variable language_">this</span>.<span class="property">fallback</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;abstract&#x27;</span>:</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">history</span> = <span class="keyword">new</span> <span class="title class_">AbstractHistory</span>(<span class="variable language_">this</span>, options.<span class="property">base</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，基于三种mode，vue-router 分别用三个对象来初始化this.history：HTML5History，HashHistory，AbstractHistory。而后续的几类路由跳转（go, push…）方法，也是调用了this.history 的方法。具体可以再挖掘vue router源代码，在这里就不过多的贴出了。</p>
+<h4 id="react-router"><a href="#react-router" class="headerlink" title="react-router"></a>react-router</h4><p>写法和vue比较类似，先给出一段初始化执行代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ReactDOM</span> <span class="keyword">from</span> <span class="string">&#x27;react-dom&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./index.css&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span>, <span class="title class_">Route</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createBrowserHistory &#125; <span class="keyword">from</span> <span class="string">&#x27;history&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 假设这里有两个组件home和about</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Home</span> <span class="keyword">from</span> <span class="string">&#x27;./views/Home&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">About</span> <span class="keyword">from</span> <span class="string">&#x27;./views/About&#x27;</span>;</span><br><span class="line"><span class="comment">// 使用history模式</span></span><br><span class="line"><span class="keyword">const</span> history = <span class="title function_">createBrowserHistory</span>();</span><br><span class="line"></span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">Router</span> <span class="attr">history</span>=<span class="string">&#123;history&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">App</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/home&quot;</span> <span class="attr">component</span>=<span class="string">&#123;Home&#125;/</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/about&quot;</span> <span class="attr">component</span>=<span class="string">&#123;About&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/xxx&quot;</span> <span class="attr">component</span>=<span class="string">&#123;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">props</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">                    return </span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;<span class="name">App1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                        <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;子路由&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;/<span class="name">App1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                &#125;</span></span><br><span class="line"><span class="language-xml">            &#125;/&gt;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">App</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">Router</span>&gt;</span>,</span></span><br><span class="line"><span class="language-xml">    document.getElementById(&#x27;root&#x27;);</span></span><br><span class="line"><span class="language-xml">);</span></span><br><span class="line"><span class="language-xml"></span></span><br></pre></td></tr></table></figure>
+<p>也可以参考这个，一个完整的路由组件用法，可以参考这个贴图：<br><img src="/../image/react%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E7%94%A8%E6%B3%95.png" alt="组件用法"></p>
+<p>按照惯例，分析下react router的源码，router入口文件：<br><img src="/../image/react%E8%B7%AF%E7%94%B1%E5%85%A5%E5%8F%A3.png" alt="入口"></p>
+<p>接下来看下switch.js路由匹配的方式。通过遍历React.Children，如果child路由合法，那么就构造返回一个element<br><img src="/../image/switchjs.png" alt="switch.js"></p>
+<p>上面提到过，在路由switch.js，提供了一个<strong>RouterContext</strong>。这个可以理解为一个闭包上下文环境，引用环境的provider可以向consumer提供指定的数据和方法。那我们看看源码是如何呈现的：<br>在react Router.js中，像环境提供了一些公共的实例，比如<strong>history</strong>，<strong>location</strong>等等。其中history的push方法可以完成前端路由的跳转，以及通过state传值给子组件。<br><img src="/../image/providerjs.png" alt="Router.js"></p>
+<p>而在Route.js中，作为consumer方，直接在context中获取传递的history使用：<br><img src="/../image/switchjs.png" alt="Route.js"></p>
+<p>那么此时，我们如果想利用context这个方法，来完成Router Context props的传递，该如何做呢？首先完善代码，使用BrowserRouter和Switch：<br><img src="/../image/router1.png" alt="Router.js"></p>
+<p>那么回到App.js，核心在于接受router context的传入，下面给出高阶函数的写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; __RouterContext &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params">&#123;children&#125;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            &#123; children &#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">ctx</span>(<span class="params">Component</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">props</span> =&gt;</span> </span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">__RouterContext.Consumer</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#123;   // context为router context环境提供的</span></span><br><span class="line"><span class="language-xml">            context =&gt; <span class="tag">&lt;<span class="name">Component</span> &#123;<span class="attr">...context</span>&#125;&#123;<span class="attr">...props</span>&#125;&gt;</span><span class="tag">&lt;/<span class="name">Component</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">__RouterContext.Consumer</span>&gt;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回一个App的高阶函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">ctx</span>(<span class="title class_">App</span>);</span><br></pre></td></tr></table></figure>
+<p>跑一下代码，就可以看到注入效果了：<br><img src="/../image/routercontext.png" alt="router context"></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 miaozixiong@gmail.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">💰</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2017-2020 TonyMiao
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>Help us with donation</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">alipay</label></span><span><label><input type="radio" name="pay" value="weixin">weixin</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

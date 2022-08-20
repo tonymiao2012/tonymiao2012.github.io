@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS中的this、闭包、作用域链 | Tony Miao Official Website</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="JS中的this、闭包、作用域链 | Tony Miao Official Website">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="底层核心原理 在History路由模式下，均机遇html5新增的history API， pushState，replaceState，用法如下：12history.pushState(state, title, url);history.replaceState(state, title, url);  即跳转到URL路径（与当前页面在同一个域，形如一个网站的loaction.pathname部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端路由原理">
+<meta property="og:url" content="http://tonymiao.com/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Tony Miao Official Website">
+<meta property="og:description" content="底层核心原理 在History路由模式下，均机遇html5新增的history API， pushState，replaceState，用法如下：12history.pushState(state, title, url);history.replaceState(state, title, url);  即跳转到URL路径（与当前页面在同一个域，形如一个网站的loaction.pathname部">
+<meta property="og:locale">
+<meta property="og:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E7%94%A8%E6%B3%95.png">
+<meta property="og:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E5%85%A5%E5%8F%A3.png">
+<meta property="og:image" content="http://tonymiao.com/image/switchjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/providerjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/switchjs.png">
+<meta property="og:image" content="http://tonymiao.com/image/router1.png">
+<meta property="og:image" content="http://tonymiao.com/image/routercontext.png">
+<meta property="article:published_time" content="2022-08-20T13:30:15.000Z">
+<meta property="article:modified_time" content="2022-08-20T16:12:41.647Z">
+<meta property="article:author" content="Tony Miao">
+<meta property="article:tag" content="前端router">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonymiao.com/image/react%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E7%94%A8%E6%B3%95.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>Tony Miao</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/tonymiao2012" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="instagram" href="https://www.instagram.com/tonymiao2012/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:miaozixiong@gmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=50881992" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active" data-rel="All">All<small>(12)</small></div></li>
+    
+        
+            
+            <li><div data-rel="深入JS">深入JS<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="HelloWorld">HelloWorld<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Hexo">Hexo<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="LeetCode">LeetCode<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="React">React<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ReactNative">ReactNative<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="TypeScript">TypeScript<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">About</a><a style="width: 50%"  class="friends">Friends</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="12">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" />
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>面试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端router</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据结构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>HelloWorld</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react native</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All "
+           href="/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/"
+           data-tag="前端router"
+           data-author="" >
+            <span class="post-title" title="前端路由原理">前端路由原理</span>
+            <span class="post-date" title="2022-08-20 21:30:15">2022/08/20</span>
+        </a>
+        
+        <a  class="All "
+           href="/2022/08/19/JS%E4%B8%AD%E7%9A%84this%E3%80%81%E9%97%AD%E5%8C%85%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS中的this、闭包、作用域链">JS中的this、闭包、作用域链</span>
+            <span class="post-date" title="2022-08-19 14:31:58">2022/08/19</span>
+        </a>
+        
+        <a  class="All TypeScript "
+           href="/2022/08/19/TS%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="TS基础总结">TS基础总结</span>
+            <span class="post-date" title="2022-08-19 14:19:03">2022/08/19</span>
+        </a>
+        
+        <a  class="All "
+           href="/2022/08/18/JS%E6%B7%B1%E6%8B%B7%E8%B4%9D%EF%BC%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS深拷贝，浅拷贝">JS深拷贝，浅拷贝</span>
+            <span class="post-date" title="2022-08-18 16:02:57">2022/08/18</span>
+        </a>
+        
+        <a  class="All React "
+           href="/2022/08/15/React%E7%9F%A5%E8%AF%86%E7%82%B9%E6%BB%B4/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="React知识点滴（持续更新中）">React知识点滴（持续更新中）</span>
+            <span class="post-date" title="2022-08-15 11:59:20">2022/08/15</span>
+        </a>
+        
+        <a  class="All ReactNative "
+           href="/2022/08/15/React-Native%E4%BC%98%E5%8C%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"
+           data-tag="react native"
+           data-author="" >
+            <span class="post-title" title="React Native优化那些事儿(持续更新中)">React Native优化那些事儿(持续更新中)</span>
+            <span class="post-date" title="2022-08-15 11:18:02">2022/08/15</span>
+        </a>
+        
+        <a  class="All HelloWorld "
+           href="/2022/08/08/hello-world/"
+           data-tag="HelloWorld"
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2022-08-08 16:49:17">2022/08/08</span>
+        </a>
+        
+        <a  class="All 深入JS "
+           href="/2021/04/12/JS-Promise%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/"
+           data-tag="前端"
+           data-author="" >
+            <span class="post-title" title="JS Promise原理及实现">JS Promise原理及实现</span>
+            <span class="post-date" title="2021-04-12 20:12:08">2021/04/12</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/03/11/%E5%A4%8D%E7%9B%98%E8%87%AA%E7%9C%81/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="复盘自省">复盘自省</span>
+            <span class="post-date" title="2021-03-11 22:07:29">2021/03/11</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/03/09/CSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="CSS基础知识点">CSS基础知识点</span>
+            <span class="post-date" title="2021-03-09 13:18:26">2021/03/09</span>
+        </a>
+        
+        <a  class="All LeetCode "
+           href="/2020/10/12/LeetCode%E5%88%B7%E9%A2%98%E5%87%86%E5%A4%87%E4%B9%8B%E5%B8%B8%E7%94%A8JS%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="LeetCode刷题准备之常用JS数据结构">LeetCode刷题准备之常用JS数据结构</span>
+            <span class="post-date" title="2020-10-12 22:54:53">2020/10/12</span>
+        </a>
+        
+        <a  class="All Hexo "
+           href="/2020/10/07/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blog%E7%9A%84%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="使用Hexo搭建静态blog的心得体会">使用Hexo搭建静态blog的心得体会</span>
+            <span class="post-date" title="2020-10-07 17:57:27">2020/10/07</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-JS中的this、闭包、作用域链" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">JS中的this、闭包、作用域链</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2022-08-19 18:33:36'>2022-08-19 14:31</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E3%80%90%E8%BD%AC%E3%80%91this-%E6%8C%87%E5%90%91-%EF%BD%9C%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85"><span class="toc-text">【转】this 指向 ｜作用域与闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#this-%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-text">this 问题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%BB%91%E5%AE%9A%EF%BC%88%E5%87%BD%E6%95%B0%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8%EF%BC%89"><span class="toc-text">默认绑定（函数直接调用）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E7%BB%91%E5%AE%9A%EF%BC%88%E5%B1%9E%E6%80%A7%E8%AE%BF%E9%97%AE%E8%B0%83%E7%94%A8%EF%BC%89"><span class="toc-text">隐式绑定（属性访问调用）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E7%BB%91%E5%AE%9A%EF%BC%88call%E3%80%81-bind%E3%80%81-apply%EF%BC%89"><span class="toc-text">显式绑定（call、 bind、 apply）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new"><span class="toc-text">new</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0"><span class="toc-text">箭头函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0"><span class="toc-text">学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E4%B8%80%E6%B3%A2"><span class="toc-text">实战一波</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%8D%E9%AA%9A%E6%B0%94%E4%B8%80%E7%82%B9"><span class="toc-text">再骚气一点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E9%97%AD%E5%8C%85"><span class="toc-text">作用域和闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-text">存储空间、执行上下文</span></a></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="【转】this-指向-｜作用域与闭包"><a href="#【转】this-指向-｜作用域与闭包" class="headerlink" title="【转】this 指向 ｜作用域与闭包"></a>【转】this 指向 ｜作用域与闭包</h1><blockquote>
+<p>波比 - 资深航空母舰拼接工程师｜一级螺丝工</p>
+</blockquote>
+<hr>
+<p>大纲</p>
+<ul>
+<li>实战是检验真理的唯一标准</li>
+<li>深入理解 <code>this</code></li>
+<li>作用域</li>
+<li>闭包到底是什么</li>
+</ul>
+<hr>
+<h2 id="this-问题总结"><a href="#this-问题总结" class="headerlink" title="this 问题总结"></a><code>this</code> 问题总结</h2><p>这一节课程，以实战为引子，带领大家一起总结出 <code>this</code> 指向问题的规律。</p>
+<h3 id="默认绑定（函数直接调用）"><a href="#默认绑定（函数直接调用）" class="headerlink" title="默认绑定（函数直接调用）"></a>默认绑定（函数直接调用）</h3><p>非严格模式下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>) <span class="comment">// window变量。函数直接执行时候this指向全局</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">fn</span>()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>严格模式下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="string">&#x27;use strict&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>) <span class="comment">// console what ?</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">fn</span>()</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>TIP1 👉 非严格模式下，默认绑定指向全局（<code>node</code> 中式 <code>global</code>）</p>
+</blockquote>
+<p>当然，面试官可能会这样迷惑一下你：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">2</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">a</span>) <span class="comment">// 等同于window.a, 输出1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fn</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// -------------- 变 -----------------</span></span><br><span class="line"><span class="comment">// 1. 把最外层 var a = 1 -&gt; let a = 1，输出结果是？</span></span><br><span class="line"><span class="comment">// Answer: undefined. let 声明了自己的作用域，没有绑定到全局 </span></span><br><span class="line"><span class="comment">// -------------- 变 -----------------</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">1</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span> () &#123;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">2</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">inner</span> () &#123; </span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">b</span>) <span class="comment">// console what ?</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">inner</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">outer</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// --------------- 变 -----------------</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">fn</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">a</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.<span class="title function_">fn</span>() <span class="comment">// console 1, fn作用域绑定到obj，所以执行时候为1</span></span><br><span class="line"><span class="keyword">const</span> f = obj.<span class="property">fn</span></span><br><span class="line"><span class="title function_">f</span>() <span class="comment">// undefined，相当于函数直接调用。访问全局的a, undefined</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="隐式绑定（属性访问调用）"><a href="#隐式绑定（属性访问调用）" class="headerlink" title="隐式绑定（属性访问调用）"></a>隐式绑定（属性访问调用）</h3><p>这种也是非常常见的情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span> () &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">a</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.<span class="property">fn</span> = fn</span><br><span class="line">obj.<span class="title function_">fn</span>() <span class="comment">// console 1. 隐式数据绑定。</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>TIP 👉 隐式绑定的 <code>this</code> 指的是调用堆栈的<strong>上一级</strong>（<code>.</code>前面<strong>一</strong>个）</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span> () &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">a</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj1 = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">  fn</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj2 = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">2</span>,</span><br><span class="line">  obj1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj2.<span class="property">obj1</span>.<span class="title function_">fn</span>() <span class="comment">// console 1 指向调用堆栈的上一级</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>面试官一般问的是一些边界 <code>case</code>，比如隐式绑定失效（列举部分）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一种 是前面提过的情况</span></span><br><span class="line"><span class="keyword">const</span> obj1 = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">fn</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">a</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fn1 = obj1.<span class="property">fn</span> <span class="comment">// 将引用给了 fn1，等同于写了 function fn1() &#123; console.log(this.a) &#125;</span></span><br><span class="line"><span class="title function_">fn1</span>() <span class="comment">// 所以这里其实已经变成了默认绑定规则了，该函数 `fn1` 执行的环境就是全局环境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二种 setTimeout</span></span><br><span class="line"><span class="built_in">setTimeout</span>(obj1.<span class="property">fn</span>, <span class="number">1000</span>) <span class="comment">// 这里执行的环境同样是全局</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三种 函数作为参数传递</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">run</span>(<span class="params">fn</span>) &#123;</span><br><span class="line">  <span class="title function_">fn</span>()</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">run</span>(obj1.<span class="property">fn</span>) <span class="comment">// 这里传进去的是一个引用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第四种 一般匿名函数也是会指向全局的</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;The Window&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;My obj&#x27;</span>,</span><br><span class="line">    <span class="attr">getName</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="comment">// 这是一个匿名函数</span></span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>)</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.<span class="title function_">getName</span>()()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第五种 函数赋值也会改变 this 指向，下边练习题会有 case，react 中事件处理函数为啥要 bind 一下的原因</span></span><br><span class="line"><span class="comment">// 第六种 IIFE</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="显式绑定（call、-bind、-apply）"><a href="#显式绑定（call、-bind、-apply）" class="headerlink" title="显式绑定（call、 bind、 apply）"></a>显式绑定（<code>call</code>、 <code>bind</code>、 <code>apply</code>）</h3><p>通过显式的一些方法去强行的绑定 <code>this</code> 上下文</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span> () &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">a</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn.<span class="title function_">call</span>(obj) <span class="comment">// console 100，显示绑定关系。强行绑定了obj的上下文环境</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>TIP 👉 这种根本还是取决于第一个参数</p>
+<p>但是第一个为 <code>null</code> 的时候还是绑到全局的</p>
+</blockquote>
+<p><code>bind</code> 这里单拎出来，因为面试常常问是吧</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为啥可以绑定基本类型 ?</span></span><br><span class="line"><span class="comment">// boxing(装箱) -&gt; (1 ----&gt; Number(1))</span></span><br><span class="line"><span class="comment">// bind 只看第一个 bind（堆栈的上下文，上一个，写的顺序来看就是第一个）</span></span><br><span class="line">fn.<span class="title function_">bind</span>(<span class="number">1</span>).<span class="title function_">bind</span>(<span class="number">2</span>)() <span class="comment">// console 结果为1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>看看实现也很有趣（<code>FROM MDN</code>）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Yes, it does work with `new (funcA.bind(thisArg, args))`</span></span><br><span class="line"><span class="keyword">if</span> (!<span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span>) (<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> <span class="title class_">ArrayPrototypeSlice</span> = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>; <span class="comment">// 为了 this</span></span><br><span class="line">  <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> = <span class="keyword">function</span>(<span class="params">otherThis</span>) &#123;</span><br><span class="line">    <span class="comment">// 调用者必须是函数，这里的 this 指向调用者：fn.bind(ctx, ...args) / fn</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable language_">this</span> !== <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">      <span class="comment">// closest thing possible to the ECMAScript 5</span></span><br><span class="line">      <span class="comment">// internal IsCallable function</span></span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;Function.prototype.bind - what is trying to be bound is not callable&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> baseArgs= <span class="title class_">ArrayPrototypeSlice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>, <span class="number">1</span>), <span class="comment">// 取余下的参数</span></span><br><span class="line">        baseArgsLength = baseArgs.<span class="property">length</span>,</span><br><span class="line">        fToBind = <span class="variable language_">this</span>, <span class="comment">// 调用者</span></span><br><span class="line">        fNOP    = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;, <span class="comment">// 寄生组合集成需要一个中间函数，避免两次构造</span></span><br><span class="line">        fBound  = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">          <span class="comment">// const newFn = fn.bind(ctx, 1); newFn(2) -&gt; arguments: [1, 2]</span></span><br><span class="line">          baseArgs.<span class="property">length</span> = baseArgsLength; <span class="comment">// reset to default base arguments</span></span><br><span class="line">          baseArgs.<span class="property">push</span>.<span class="title function_">apply</span>(baseArgs, <span class="variable language_">arguments</span>); <span class="comment">// 参数收集</span></span><br><span class="line">          <span class="keyword">return</span> fToBind.<span class="title function_">apply</span>( <span class="comment">// apply 显示绑定 this</span></span><br><span class="line">            <span class="comment">// 判断是不是 new 调用的情况，这里也说明了后边要讲的优先级问题      </span></span><br><span class="line">            fNOP.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">isPrototypeOf</span>(<span class="variable language_">this</span>) ? <span class="variable language_">this</span> : otherThis, baseArgs</span><br><span class="line">          );</span><br><span class="line">        &#125;;</span><br><span class="line">		<span class="comment">// 下边是为了实现原型继承</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property"><span class="keyword">prototype</span></span>) &#123; <span class="comment">// 函数的原型指向其构造函数，构造函数的原型指向函数</span></span><br><span class="line">      <span class="comment">// Function.prototype doesn&#x27;t have a prototype property</span></span><br><span class="line">      fNOP.<span class="property"><span class="keyword">prototype</span></span> = <span class="variable language_">this</span>.<span class="property"><span class="keyword">prototype</span></span>; <span class="comment">// 就是让中间函数的构造函数指向调用者的构造</span></span><br><span class="line">    &#125;</span><br><span class="line">    fBound.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title function_">fNOP</span>(); <span class="comment">// 继承中间函数，其实这里也继承了调用者了</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fBound; <span class="comment">// new fn()</span></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p><code>new</code> 也是灰常有趣，我们这里只关注其 <code>this</code> 指向的问题</p>
+<p>这次，我们先实现一下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// new 关键字会进行如下的操作：</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 创建一个空的简单JavaScript对象（即&#123;&#125;）；</span></span><br><span class="line"><span class="comment">// 2. 链接该对象（设置该对象的constructor）到另一个对象 ；</span></span><br><span class="line"><span class="comment">// 3. 将步骤1新创建的对象作为this的上下文 ；// 🔥</span></span><br><span class="line"><span class="comment">// 4. 如果该函数没有返回对象，则返回this。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 我们来模拟实现一个 new</span></span><br><span class="line"><span class="comment">// new Fn(); </span></span><br><span class="line"><span class="comment">// myNew(Fn, ...args);</span></span><br><span class="line"><span class="keyword">import</span> _ <span class="keyword">from</span> <span class="string">&#x27;lodash&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">myNew</span>(<span class="params">fn, ...args</span>) &#123;</span><br><span class="line">  <span class="comment">// fn 必须是一个函数</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> fn !== <span class="string">&#x27;function&#x27;</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;fn must be a function.&#x27;</span>)</span><br><span class="line">  <span class="comment">// es6 new.target</span></span><br><span class="line">  myNew.<span class="property">target</span> = fn</span><br><span class="line">  <span class="comment">// 原型继承</span></span><br><span class="line">  <span class="keyword">const</span> temp = <span class="title class_">Object</span>.<span class="title function_">create</span>(fn.<span class="property"><span class="keyword">prototype</span></span>) <span class="comment">// 步骤 1. 2.</span></span><br><span class="line">  <span class="comment">// fn执行绑定 this 环境</span></span><br><span class="line">  <span class="keyword">const</span> res = fn.<span class="title function_">apply</span>(temp, ...args) <span class="comment">// 步骤 3.</span></span><br><span class="line">  <span class="comment">// 如果该函数没有返回对象，则返回this。</span></span><br><span class="line">  <span class="keyword">return</span> _.<span class="title function_">isObject</span>(res) ? res : temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>TIP 👉 如果函数 <code>constructor</code> 里没有返回对象的话，<code>this</code> 指向的是 <code>new</code> 之后得到的实例</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">a</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">a</span> = a</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> f = <span class="keyword">new</span> <span class="title function_">foo</span>(<span class="number">2</span>)</span><br><span class="line">f.<span class="property">a</span> <span class="comment">// console what?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ------------------------- 变 ---------------------------</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params">a</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">a</span> = a</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="number">100</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> b = <span class="keyword">new</span> <span class="title function_">bar</span>(<span class="number">3</span>)</span><br><span class="line">b.<span class="property">a</span> <span class="comment">// console 100</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><p>箭头函数这种情况比较特殊，编译期间确定的上下文，不会被改变，哪怕你 <code>new</code>，指向的就是<strong>上一层</strong>的上下文,</p>
+<blockquote>
+<p>TIP 👉 箭头函数本身是没有 <code>this</code> 的，继承的是外层的</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">b</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">fn</span>().<span class="title function_">b</span>() <span class="comment">// console what? =&gt; window变量</span></span><br><span class="line"><span class="title function_">fn</span>().<span class="property">b</span>.<span class="title function_">bind</span>(<span class="number">1</span>)() <span class="comment">// console what? =&gt; window变量</span></span><br><span class="line">fn.<span class="title function_">bind</span>(<span class="number">2</span>)().<span class="property">b</span>.<span class="title function_">bind</span>(<span class="number">3</span>)() <span class="comment">// console what? =&gt; Number(2)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><p>这里只是抛砖引玉的给大家介绍一些常见的情况，更多更细节的内容还是需要大家主动的去总结，去实践，可以看看<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this">更多可参见 MDN</a></p>
+<h3 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h3><p>这上面的各种方式一定是有先后顺序的，同时作用于一个函数的时候，以哪一个为准呢？这取决于优先级</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 隐式 vs 默认 -&gt; 结论：隐式 &gt; 默认</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  fn</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.<span class="title function_">fn</span>() <span class="comment">// what ?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 显式 vs 隐式 -&gt; 结论：显式 &gt; 隐式</span></span><br><span class="line">obj.<span class="property">fn</span>.<span class="title function_">bind</span>(<span class="number">5</span>)() <span class="comment">// what ?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// new vs 显式 -&gt; 结论：new &gt; 显式</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span> (a) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">a</span> = a</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj1 = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bar = foo.<span class="title function_">bind</span>(obj1)</span><br><span class="line"><span class="title function_">bar</span>(<span class="number">2</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj1.<span class="property">a</span>) <span class="comment">// what ?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// new</span></span><br><span class="line"><span class="keyword">var</span> baz = <span class="keyword">new</span> <span class="title function_">bar</span>(<span class="number">3</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( obj1.<span class="property">a</span> ) <span class="comment">// what ?</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( baz.<span class="property">a</span> ) <span class="comment">// what ?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 箭头函数没有 this，比较没有意义</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>TIP 👉 优先级「new 绑」 &gt; 「显绑」 &gt; 「隐绑」 &gt; 「默认绑定」</p>
+</blockquote>
+<h3 id="实战一波"><a href="#实战一波" class="headerlink" title="实战一波"></a>实战一波</h3><p>网上随便找了几道题给大家练手</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="variable language_">this</span>.<span class="property">a</span> ) <span class="comment">// console what -&gt; 2，相当于全局执行</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="string">&quot;use strict&quot;</span> <span class="comment">// 迷惑大家的</span></span><br><span class="line">  <span class="title function_">foo</span>();</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.</span></span><br><span class="line"><span class="keyword">var</span> name=<span class="string">&quot;the window&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> object=&#123;</span><br><span class="line">  <span class="attr">name</span>:<span class="string">&quot;My Object&quot;</span>, </span><br><span class="line">  <span class="attr">getName</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">name</span></span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br><span class="line">object.<span class="title function_">getName</span>() <span class="comment">// console what =&gt; my object</span></span><br><span class="line">(object.<span class="property">getName</span>)() <span class="comment">// console what =&gt; my object</span></span><br><span class="line">(object.<span class="property">getName</span> = object.<span class="property">getName</span>)() <span class="comment">// console what =&gt; the window (=运算符丢失了this指向)</span></span><br><span class="line">(object.<span class="property">getName</span>, object.<span class="property">getName</span>)() <span class="comment">// console what =&gt; the window</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">3</span></span><br><span class="line"><span class="keyword">var</span> obj3 = &#123;</span><br><span class="line">  <span class="attr">x</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">getX</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> x = <span class="number">5</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">x</span></span><br><span class="line">    &#125;(); <span class="comment">// ⚠️</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj3.<span class="title function_">getX</span>()) <span class="comment">// console what? =&gt; 3   IIFE函数丢失this指向，所以指向全局x</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. </span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params">x</span>)&#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">x</span> = x</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">this</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> x = <span class="title function_">a</span>(<span class="number">5</span>) <span class="comment">// 替换为 let 再试试</span></span><br><span class="line"><span class="keyword">var</span> y = <span class="title function_">a</span>(<span class="number">6</span>) <span class="comment">// 替换为 let 再试试 // 再换回 var，但是去掉 y 的情况，再试试</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x.<span class="property">x</span>) <span class="comment">// console what ? =&gt; undefined</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(y.<span class="property">x</span>) <span class="comment">// console what ? =&gt; 6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">x</span> = <span class="number">5</span>;</span><br><span class="line"><span class="variable language_">window</span>.<span class="property">x</span> = <span class="variable language_">window</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">x</span> = <span class="number">6</span>;</span><br><span class="line"><span class="variable language_">window</span>.<span class="property">y</span> = <span class="variable language_">window</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x.<span class="property">x</span>) <span class="comment">// void 0 其实执行的是 Number(6).x</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(y.<span class="property">x</span>) <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="再骚气一点"><a href="#再骚气一点" class="headerlink" title="再骚气一点"></a>再骚气一点</h3><p>作业：尝试着去读一读，理解一下</p>
+<p><a target="_blank" rel="noopener" href="https://tc39.es/ecma262/#sec-this-keyword">this keyword</a></p>
+<h2 id="作用域和闭包"><a href="#作用域和闭包" class="headerlink" title="作用域和闭包"></a>作用域和闭包</h2><p>上边基础的部分完成了，我们开始抽象一下了。</p>
+<h3 id="存储空间、执行上下文"><a href="#存储空间、执行上下文" class="headerlink" title="存储空间、执行上下文"></a>存储空间、执行上下文</h3><p>👉 数据是怎么存的？</p>
+<blockquote>
+<p>本质是将数据映射成 <code>0</code> <code>1</code> ，然后通过触发器存储这类信息（电信号）</p>
+</blockquote>
+<p>👉 栈 和 堆 &#x2F; 静态内存分配 和 动态内存分配</p>
+<p>堆栈这里指的是存储数据结构，当然本身也可以是一种数据结构的概念（二叉堆、栈）</p>
+<blockquote>
+<p>静态内存分配:</p>
+<ul>
+<li>编译期知道所需内存空间大小。</li>
+<li>编译期执行</li>
+<li>申请到栈空间</li>
+<li>FILO(先进后出)</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>动态内存分配:</p>
+<ul>
+<li>编译期不知道所需内存空间大小</li>
+<li>运行期执行</li>
+<li>申请到堆空间</li>
+<li>没有特定的顺序</li>
+</ul>
+</blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// rust -&gt; wasm</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">   <span class="keyword">let</span> <span class="variable">arr</span>:[<span class="type">i32</span>;<span class="number">4</span>] = [<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>];</span><br><span class="line">   <span class="built_in">println!</span>(<span class="string">&quot;array is &#123;:?&#125;&quot;</span>,arr);</span><br><span class="line">   <span class="built_in">println!</span>(<span class="string">&quot;array size is :&#123;&#125;&quot;</span>,arr.<span class="title function_ invoke__">len</span>());</span><br><span class="line"></span><br><span class="line">   <span class="keyword">for</span> <span class="variable">index</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">      <span class="built_in">println!</span>(<span class="string">&quot;index is: &#123;&#125; &amp; value is : &#123;&#125;&quot;</span>,index,arr[index]);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> arr = [<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>];</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>👉 执行上下文 和 可执行代码</p>
+<blockquote>
+<p>Execution context (abbreviated form — EC) is the abstract concept used by ECMA-262 specification for typification and differentiation of an executable code. </p>
+<p>​																																	——– ECMA262</p>
+</blockquote>
+<p>当控制器转到一段<strong>可执行代码</strong>的时候就会进入到一个<strong>执行上下文</strong>。执行上下文是一个堆栈结构(先进后出), 栈底部永远是全局上下文，栈顶是当前活动的上下文。其余都是在等待的状态，这也印证了<code>JS</code>中函数执行的原子性</p>
+<p>可执行代码与执行上下文是相对的，某些时刻二者等价</p>
+<blockquote>
+<p> 可执行代码（大致可以这么划分）：</p>
+<ul>
+<li>全局代码</li>
+<li>函数</li>
+<li>eval</li>
+</ul>
+</blockquote>
+<p>🤔 递归 &amp; 尾调用优化</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/gEdBIU"><img src="https://z3.ax1x.com/2021/04/30/gEdBIU.png" alt="gEdBIU.png"></a></p>
+<p>执行上下文（简称 <code>EC</code>）中主要分为三部分内容：</p>
+<ul>
+<li><code>VO</code> &#x2F; <code> AO</code> 变量对象</li>
+<li>作用域链</li>
+<li><code>This</code></li>
+</ul>
+<p>所以这个流程可以梳理出来：</p>
+<ol>
+<li><p>遇到可执行代码</p>
+</li>
+<li><p>创建一个执行上下文 （可执行代码的生命周期：编译、运行）</p>
+<p>2.1 初始化 <code>VO</code></p>
+<p>2.2 建立作用域链</p>
+<p>2.3 确定 <code>This</code> 上下文</p>
+</li>
+<li><p>可执行代码执行阶段</p>
+<p>3.1 参数、变量赋值、提升</p>
+<p>3.2 函数引用</p>
+<p>3.3 …</p>
+</li>
+<li><p>出栈</p>
+</li>
+</ol>
+<p>👉 作用域链</p>
+<blockquote>
+<p>每一个执行上下文都与一个作用域链相关联。作用域链是一个对象组成的链表，<strong>求值标识符</strong>的时候会搜索它。当控制进入执行上下文时，就根据代码类型创建一个作用域链，并用初始化对象（<code>VO/AO</code>）填充。执行一个上下文的时候，其作用域链只会被 <code>with</code> 声明和 <code>catch</code> 语句所影响</p>
+</blockquote>
+<p>体会一下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">100</span>;</span><br><span class="line">    <span class="title function_">alert</span>( a + b );</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">foo</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 两个阶段：创建 - 执行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// --------------------------- 创建 ------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟 VO/AO 对象</span></span><br><span class="line"><span class="title function_">AO</span>(<span class="params">foo</span>) &#123;</span><br><span class="line">  <span class="attr">b</span>: <span class="keyword">void</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// [[scope]] 不是作用域链，只是函数的一个属性（规范里的，不是实际实现）</span></span><br><span class="line"><span class="comment">// 在函数创建时被存储，静态（不变的），永远永远，直到函数被销毁</span></span><br><span class="line">foo.[[scope]]: [<span class="title function_">VO</span>(<span class="variable language_">global</span>)]</span><br><span class="line"></span><br><span class="line"><span class="title function_">VO</span>(<span class="params"><span class="variable language_">global</span></span>) &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="keyword">void</span> <span class="number">0</span>,</span><br><span class="line">  <span class="attr">foo</span>: <span class="title class_">Reference</span>&lt;<span class="string">&#x27;foo&#x27;</span>&gt;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="comment">// --------------------------- 调用 ------------------------------</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 可以这么去理解，近似的用一个 concant 模拟，就是将当前的活动对象放作用域链最前边</span></span><br><span class="line"><span class="title class_">Scope</span> = [<span class="variable constant_">AO</span>|<span class="variable constant_">VO</span>].<span class="title function_">concat</span>([[<span class="title class_">Scope</span>]])</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// ---------------------------- 执行时 EC --------------------------------</span></span><br><span class="line"><span class="title function_">EC</span>(<span class="params"><span class="variable language_">global</span></span>) &#123;</span><br><span class="line">  <span class="title function_">VO</span>(<span class="params"><span class="variable language_">global</span></span>) &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="keyword">void</span> <span class="number">0</span>,</span><br><span class="line">    <span class="attr">foo</span>: <span class="title class_">Reference</span>&lt;<span class="string">&#x27;foo&#x27;</span>&gt;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title class_">Scope</span>: [<span class="title function_">VO</span>(<span class="variable language_">global</span>)]，</span><br><span class="line">  <span class="comment">// this</span></span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="title function_">EC</span>(<span class="params">foo</span>) &#123;</span><br><span class="line">  <span class="title function_">AO</span>(<span class="params">foo</span>) &#123; <span class="comment">// 声明的变量，参数</span></span><br><span class="line">    <span class="attr">b</span>: <span class="keyword">void</span> <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title class_">Scope</span>: [<span class="title function_">AO</span>(foo), <span class="title function_">VO</span>(<span class="variable language_">global</span>)] <span class="comment">// 查找顺序 -&gt; RHS LHS  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>特殊情况：</p>
+<ul>
+<li><code>Function</code>  构造的函数 <code>[[scope]]</code> 里只有全局的变量对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 证明</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">20</span>;</span><br><span class="line">  <span class="comment">// 函数声明</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">f1</span>(<span class="params"></span>)&#123; <span class="comment">// EC(f1) &#123; Scope: [AO(f1), VO(foo), VO(g)] &#125;</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a, b);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 函数表达式</span></span><br><span class="line">  <span class="keyword">var</span> f2 = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a, b);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> f3 = <span class="title class_">Function</span>(<span class="string">&#x27;console.log(a,b)&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">f1</span>(); <span class="comment">// 10, 20</span></span><br><span class="line">  <span class="title function_">f2</span>(); <span class="comment">// 10, 20</span></span><br><span class="line">  <span class="title function_">f3</span>(); <span class="comment">// 10, b is not defined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><code>with</code> &amp; <code>catch</code> &amp; <code>eval</code></li>
+</ul>
+<blockquote>
+<p>本质上 <code>eval</code> 之类的恐怖之处是可以很方便的修改作用域链，<strong>执行完后又回归最初状态</strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这样好理解</span></span><br><span class="line"><span class="title class_">Scope</span> = [ withObj|catchObj ].<span class="title function_">concat</span>( [ <span class="variable constant_">AO</span>|<span class="variable constant_">VO</span> ].<span class="title function_">concat</span>( [[ scope ]] ) )</span><br><span class="line"><span class="comment">// 初始状态 [VO(foo), VO(global)]</span></span><br><span class="line"><span class="comment">// with 一下：[VO(with)❓, VO(foo), VO(global)]</span></span><br><span class="line"><span class="comment">// with 完事儿了，还要恢复 👈</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">15</span>, b = <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">with</span>(<span class="params"> &#123; a: <span class="number">10</span> &#125; </span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">30</span>, b = <span class="number">30</span>;</span><br><span class="line">  <span class="title function_">alert</span>(a); <span class="comment">// 30</span></span><br><span class="line">  <span class="title function_">alert</span>(b); <span class="comment">// 30</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>(a); <span class="comment">// ? answer: 15</span></span><br><span class="line"><span class="title function_">alert</span>(b); <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>👉 闭包</p>
+<blockquote>
+<p>函数拥有对其词法作用域的访问，哪怕是在当前作用域之外执行</p>
+</blockquote>
+<blockquote>
+<p>对于现代浏览器机制来说，闭包其实就是<code>逃逸分析</code> -&gt; 通过浏览器的机制，哪些变量用了，哪些没用，哪些未来还会用。对于没有用的，浏览器执行垃圾回收。有引用的，浏览器不会立刻回收，保留这个被引用的对象。</p>
+</blockquote>
+<p>闭包的数据存哪里？-&gt; 堆区存储</p>
+<p>存的其实是啥？</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 miaozixiong@gmail.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">💰</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2017-2020 TonyMiao
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>Help us with donation</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">alipay</label></span><span><label><input type="radio" name="pay" value="weixin">weixin</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
