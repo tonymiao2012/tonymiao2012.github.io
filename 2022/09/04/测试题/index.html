@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>测试题 | Tony Miao Official Website</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="测试题 | Tony Miao Official Website">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="1. What’s the time complexity of the following code, and why?1234567var a &#x3D; 0;for (var i &#x3D; 0; i &lt; N; i++) &amp;#123;   &#x2F;&#x2F; first iteration    for (var j &#x3D; N; j &gt; i; j--) &#x2F;&#x2F; second iteration    &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试题">
+<meta property="og:url" content="http://tonymiao.com/2022/09/04/%E6%B5%8B%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="Tony Miao Official Website">
+<meta property="og:description" content="1. What’s the time complexity of the following code, and why?1234567var a &#x3D; 0;for (var i &#x3D; 0; i &lt; N; i++) &amp;#123;   &#x2F;&#x2F; first iteration    for (var j &#x3D; N; j &gt; i; j--) &#x2F;&#x2F; second iteration    &amp;#123;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-09-04T12:28:34.000Z">
+<meta property="article:modified_time" content="2022-09-06T03:11:43.761Z">
+<meta property="article:author" content="Tony Miao">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>Tony Miao</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/tonymiao2012" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="instagram" href="https://www.instagram.com/tonymiao2012/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:miaozixiong@gmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=50881992" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active" data-rel="全部文章">全部文章<small>(14)</small></div></li>
+    
+        
+            
+            <li><div data-rel="深入JS">深入JS<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="HelloWorld">HelloWorld<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Hexo">Hexo<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="LeetCode">LeetCode<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="React">React<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ReactNative">ReactNative<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="TypeScript">TypeScript<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="14">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" />
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>面试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端router</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据结构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>HelloWorld</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>React</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react native</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 "
+           href="/2022/09/04/%E6%B5%8B%E8%AF%95%E9%A2%98/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="测试题">测试题</span>
+            <span class="post-date" title="2022-09-04 20:28:34">2022/09/04</span>
+        </a>
+        
+        <a  class="全部文章 React "
+           href="/2022/08/21/React%E5%8E%9F%E7%90%86%E4%B8%80%E6%8A%8A%E6%92%B8/"
+           data-tag="React"
+           data-author="" >
+            <span class="post-title" title="React原理一把撸">React原理一把撸</span>
+            <span class="post-date" title="2022-08-21 13:49:00">2022/08/21</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/"
+           data-tag="前端router"
+           data-author="" >
+            <span class="post-title" title="前端路由原理">前端路由原理</span>
+            <span class="post-date" title="2022-08-20 21:30:15">2022/08/20</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2022/08/19/JS%E4%B8%AD%E7%9A%84this%E3%80%81%E9%97%AD%E5%8C%85%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS中的this、闭包、作用域链">JS中的this、闭包、作用域链</span>
+            <span class="post-date" title="2022-08-19 14:31:58">2022/08/19</span>
+        </a>
+        
+        <a  class="全部文章 TypeScript "
+           href="/2022/08/19/TS%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="TS基础总结">TS基础总结</span>
+            <span class="post-date" title="2022-08-19 14:19:03">2022/08/19</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2022/08/18/JS%E6%B7%B1%E6%8B%B7%E8%B4%9D%EF%BC%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS深拷贝，浅拷贝">JS深拷贝，浅拷贝</span>
+            <span class="post-date" title="2022-08-18 16:02:57">2022/08/18</span>
+        </a>
+        
+        <a  class="全部文章 React "
+           href="/2022/08/15/React%E7%9F%A5%E8%AF%86%E7%82%B9%E6%BB%B4/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="React知识点滴（持续更新中）">React知识点滴（持续更新中）</span>
+            <span class="post-date" title="2022-08-15 11:59:20">2022/08/15</span>
+        </a>
+        
+        <a  class="全部文章 ReactNative "
+           href="/2022/08/15/React-Native%E4%BC%98%E5%8C%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"
+           data-tag="react native"
+           data-author="" >
+            <span class="post-title" title="React Native优化那些事儿(持续更新中)">React Native优化那些事儿(持续更新中)</span>
+            <span class="post-date" title="2022-08-15 11:18:02">2022/08/15</span>
+        </a>
+        
+        <a  class="全部文章 HelloWorld "
+           href="/2022/08/08/hello-world/"
+           data-tag="HelloWorld"
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2022-08-08 16:49:17">2022/08/08</span>
+        </a>
+        
+        <a  class="全部文章 深入JS "
+           href="/2021/04/12/JS-Promise%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/"
+           data-tag="前端"
+           data-author="" >
+            <span class="post-title" title="JS Promise原理及实现">JS Promise原理及实现</span>
+            <span class="post-date" title="2021-04-12 20:12:08">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2021/03/11/%E5%A4%8D%E7%9B%98%E8%87%AA%E7%9C%81/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="复盘自省">复盘自省</span>
+            <span class="post-date" title="2021-03-11 22:07:29">2021/03/11</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2021/03/09/CSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="CSS基础知识点">CSS基础知识点</span>
+            <span class="post-date" title="2021-03-09 13:18:26">2021/03/09</span>
+        </a>
+        
+        <a  class="全部文章 LeetCode "
+           href="/2020/10/12/LeetCode%E5%88%B7%E9%A2%98%E5%87%86%E5%A4%87%E4%B9%8B%E5%B8%B8%E7%94%A8JS%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="LeetCode刷题准备之常用JS数据结构">LeetCode刷题准备之常用JS数据结构</span>
+            <span class="post-date" title="2020-10-12 22:54:53">2020/10/12</span>
+        </a>
+        
+        <a  class="全部文章 Hexo "
+           href="/2020/10/07/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blog%E7%9A%84%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="使用Hexo搭建静态blog的心得体会">使用Hexo搭建静态blog的心得体会</span>
+            <span class="post-date" title="2020-10-07 17:57:27">2020/10/07</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-测试题" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">测试题</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-09-06 11:11:43'>2022-09-04 20:28</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-What%E2%80%99s-the-time-complexity-of-the-following-code-and-why"><span class="toc-text">1. What’s the time complexity of the following code, and why?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Tell-the-differences-between-a-byte-a-character-and-a-string-Tell-the-differences-between-Unicode-UTF-8-UTF-16-GB2312-and-GB18030"><span class="toc-text">2. Tell the differences between a byte, a character, and a string. Tell the differences between Unicode, UTF-8, UTF-16, GB2312, and GB18030.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-What-are-the-mobile-and-desktop-operating-systems-you-use-everyday-What-applications-do-you-use-frequently-Can-you-name-a-few-of-them-and-tell-how-they-can-be-improved-or-have-bugsfixed"><span class="toc-text">3. What are the mobile and desktop operating systems you use everyday? What applications do you use frequently? Can you name a few of them and tell how they can be improved or have bugsfixed?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-What-is-the-difference-between-Factory-and-Builder-design-patterns-What-is-the-difference-between-Adapter-and-Decorator-design-patterns-Give-an-example-for-each-above-pattern"><span class="toc-text">4. What is the difference between Factory and Builder design patterns? What is the difference between Adapter and Decorator design patterns? Give an example for each above pattern.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-What-computer-languages-do-you-master-What%E2%80%99re-the-pros-and-cons-of-each-of-them"><span class="toc-text">5. What computer languages do you master? What’re the pros and cons of each of them?</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Pros"><span class="toc-text">Pros:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Cons"><span class="toc-text">Cons:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Explain-the-differences-between-mutable-and-immutable-objects"><span class="toc-text">6. Explain the differences between mutable and immutable objects.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Use-JavaScript-to-implement-the-%E2%80%98reactive%E2%80%99-and-%E2%80%98computed%E2%80%99-functions-so-that-the-following-code-works-as-expected"><span class="toc-text">7. Use JavaScript to implement the ‘reactive’ and ‘computed’ functions so that the following code works as expected.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Given-a-number-of-rectangles-defined-by-their-width-height-and-location-x-y-of-their-top-left-corners-how-can-we-insert-a-new-rectangle-with-a-fixed-size-as-close-as-possible-to-a-desired-target-location-without-making-it-intersect-with-any-existing-rectangles"><span class="toc-text">8. Given a number of rectangles defined by their width, height, and location (x, y) of their top-left corners, how can we insert a new rectangle(with a fixed size) as close as possible to a desired target location, without making it intersect with any existing rectangles?</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-What’s-the-time-complexity-of-the-following-code-and-why"><a href="#1-What’s-the-time-complexity-of-the-following-code-and-why" class="headerlink" title="1. What’s the time complexity of the following code, and why?"></a>1. What’s the time complexity of the following code, and why?</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;   <span class="comment">// first iteration</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> j = N; j &gt; i; j--) <span class="comment">// second iteration</span></span><br><span class="line">    &#123; </span><br><span class="line">        a = a + i + j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As far as I could see, there are two iterations above. Let’s run the code step by step. In first iteration, when i &#x3D; 0, j will iterate from N to 1(N in total); when i &#x3D; 1, j iterates from N to 2(N - 1 in total). So calculating 2 iterations complexity, will be </p>
+<blockquote>
+<p>N + (N - 1)+ … 1 &#x3D; (1 + N) * N &#x2F; 2</p>
+</blockquote>
+<p>Using Big O notation, the complexity is <strong>O(n*2)</strong>;</p>
+<h4 id="2-Tell-the-differences-between-a-byte-a-character-and-a-string-Tell-the-differences-between-Unicode-UTF-8-UTF-16-GB2312-and-GB18030"><a href="#2-Tell-the-differences-between-a-byte-a-character-and-a-string-Tell-the-differences-between-Unicode-UTF-8-UTF-16-GB2312-and-GB18030" class="headerlink" title="2. Tell the differences between a byte, a character, and a string. Tell the differences between Unicode, UTF-8, UTF-16, GB2312, and GB18030."></a>2. Tell the differences between a byte, a character, and a string. Tell the differences between Unicode, UTF-8, UTF-16, GB2312, and GB18030.</h4><p>A byte is formed by 8 bits. A bit is a binary digit. </p>
+<p>A character is often one byte and in some contexts(e.g. ACSII) can be defined to be one byte in length. However, Unicode and UTF-8 and UTF-16 define expanded character sets wherein a single character can be defined by data payloads longer than one byte in length.</p>
+<p>A string is a sequence of characters. Strings are only in human readable form.</p>
+<p>The following are the differences between Unicode, UTF-8, UTF-16, GB2312, and GB18030. I found an article which has thorought explanation. So I decide refer the article <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27143671/article/details/122004713">here</a> instead of ctrl C+V it. </p>
+<h4 id="3-What-are-the-mobile-and-desktop-operating-systems-you-use-everyday-What-applications-do-you-use-frequently-Can-you-name-a-few-of-them-and-tell-how-they-can-be-improved-or-have-bugsfixed"><a href="#3-What-are-the-mobile-and-desktop-operating-systems-you-use-everyday-What-applications-do-you-use-frequently-Can-you-name-a-few-of-them-and-tell-how-they-can-be-improved-or-have-bugsfixed" class="headerlink" title="3. What are the mobile and desktop operating systems you use everyday? What applications do you use frequently? Can you name a few of them and tell how they can be improved or have bugsfixed?"></a>3. What are the mobile and desktop operating systems you use everyday? What applications do you use frequently? Can you name a few of them and tell how they can be improved or have bugsfixed?</h4><p>I frequently use MacOS, win 11, mac IOS and android system. I almost use them everyday. Further more, I use music&#x2F;shopping&#x2F;information App everyday. For example, Youtube, twitter, JD, Toutiao, NetEase Cloud Music&#x2F;Spotify. Pretty love them. </p>
+<p>However, some of the Apps are not very stable. For example, GaoDe Map, the navigation sometimes is not totally accurate. There are tons of reasons: the weak network connection, hardware performance of your phone, the numbers of background Apps(processes) running, the version of mobile system and so on. The solutions which improve the performance or fix the bug are varied, it depends on the specific problem while user meets. </p>
+<h4 id="4-What-is-the-difference-between-Factory-and-Builder-design-patterns-What-is-the-difference-between-Adapter-and-Decorator-design-patterns-Give-an-example-for-each-above-pattern"><a href="#4-What-is-the-difference-between-Factory-and-Builder-design-patterns-What-is-the-difference-between-Adapter-and-Decorator-design-patterns-Give-an-example-for-each-above-pattern" class="headerlink" title="4. What is the difference between Factory and Builder design patterns? What is the difference between Adapter and Decorator design patterns? Give an example for each above pattern."></a>4. What is the difference between Factory and Builder design patterns? What is the difference between Adapter and Decorator design patterns? Give an example for each above pattern.</h4><p>A <strong>factory</strong> is simply a wrapper function around a constructor (possibly one in a different class). The key difference is that a factory method pattern requires the entire object to be built in a single method call, with all the parameters passed in on a single line. The final object will be returned.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Factory</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">FruitFactory</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> Fruit <span class="title function_">create</span><span class="params">(name, color, firmness)</span> &#123;</span><br><span class="line">        <span class="comment">// Additional logic</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Fruit</span>(name, color, firmness);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Usage</span></span><br><span class="line"><span class="type">Fruit</span> <span class="variable">fruit</span> <span class="operator">=</span> FruitFactory.create(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;red&quot;</span>, <span class="string">&quot;crunchy&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>A <strong>builder</strong> pattern, on the other hand, is in essence a wrapper object around all the possible parameters you might want to pass into a constructor invocation. This allows you to use setter methods to slowly build up your parameter list. One additional method on a builder class is a build() method, which simply passes the builder object into the desired constructor, and returns the result.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Builder</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FruitBuilder</span> &#123;</span><br><span class="line">    String name, color, firmness;</span><br><span class="line">    FruitBuilder <span class="title function_">setName</span><span class="params">(name)</span>         &#123; <span class="built_in">this</span>.name     = name;     <span class="keyword">return</span> <span class="built_in">this</span>; &#125;</span><br><span class="line">    FruitBuilder <span class="title function_">setColor</span><span class="params">(color)</span>       &#123; <span class="built_in">this</span>.color    = color;    <span class="keyword">return</span> <span class="built_in">this</span>; &#125;</span><br><span class="line">    FruitBuilder <span class="title function_">setFirmness</span><span class="params">(firmness)</span> &#123; <span class="built_in">this</span>.firmness = firmness; <span class="keyword">return</span> <span class="built_in">this</span>; &#125;</span><br><span class="line">    Fruit <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="built_in">this</span>); <span class="comment">// Pass in the builder</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Usage</span></span><br><span class="line"><span class="type">Fruit</span> <span class="variable">fruit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FruitBuilder</span>()</span><br><span class="line">        .setName(<span class="string">&quot;apple&quot;</span>)</span><br><span class="line">        .setColor(<span class="string">&quot;red&quot;</span>)</span><br><span class="line">        .setFirmness(<span class="string">&quot;crunchy&quot;</span>)</span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure>
+
+<p><strong>Decorator</strong> is also called “Smart Proxy.” This is used when you want to add functionality to an object, but not by extending that object’s type. This allows you to do so at runtime.</p>
+<p><strong>Adapter</strong> is used when you have an abstract interface, and you want to map that interface to another object which has similar functional role, but a different interface.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Adapter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Pen</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">write</span><span class="params">(String str)</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// WriteData class implements the Pen interface </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WriteData</span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> Pen pen;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Pen <span class="title function_">getPen</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.pen;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPen</span><span class="params">(Pen pen)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pen = pen;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">writeData</span><span class="params">(String data)</span> &#123;</span><br><span class="line">        pen.write(data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> Adapter.MemoryCard;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PilotPen</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">writeMem</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Adapter.MemoryCard.PilotPen;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PenAdapter</span> <span class="keyword">implements</span> <span class="title class_">Pen</span>&#123;     <span class="comment">// Implement an adapter of pen</span></span><br><span class="line"></span><br><span class="line">    <span class="type">PilotPen</span> <span class="variable">pp</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PilotPen</span>();</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">write</span><span class="params">(String str)</span> &#123;</span><br><span class="line">		pp.writeMem(str);</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>Decorator is used to decorate individual objects at run-time. Adapter is used to add features to the class and therefore to ALL of its objects.</p>
+<h4 id="5-What-computer-languages-do-you-master-What’re-the-pros-and-cons-of-each-of-them"><a href="#5-What-computer-languages-do-you-master-What’re-the-pros-and-cons-of-each-of-them" class="headerlink" title="5. What computer languages do you master? What’re the pros and cons of each of them?"></a>5. What computer languages do you master? What’re the pros and cons of each of them?</h4><p>I learned JS&#x2F;TS, python and JAVA before. Actually, I’ll say I feel more comfortable using(or mastering) JS&#x2F;TS than python and JAVA as a FE engineer. </p>
+<p>Javascript is sort of interpreted programming language. </p>
+<h5 id="Pros"><a href="#Pros" class="headerlink" title="Pros:"></a>Pros:</h5><ol>
+<li>It’s most widely used for web programming, and the web is all-pervasive.</li>
+<li>It’s ubiquitous, being built into every web browser (remember, the web is all-pervasive). No setup is required to use JavaScript.</li>
+<li>It’s popular server-side with Node.js.</li>
+<li>It’s popular for writing cross-platform mobile apps.</li>
+<li>It’s popular for writing desktop apps.</li>
+<li>It has a rich ecosystem of frameworks and tools.</li>
+<li>It has a vast user community.<br>…</li>
+</ol>
+<h5 id="Cons"><a href="#Cons" class="headerlink" title="Cons:"></a>Cons:</h5><ol>
+<li>Its semantics is very inconsistent. It has numerous flaws that hard to understand. </li>
+<li>The front-end web framework landscape is such a mess. There are at least a dozen frameworks vying for attention, and it seems like a new framework pops up every month!</li>
+<li>The update of front-end web framework landscape is very fast, even faster than you expect. It leads to the fact that as a FE developer, one should keep learning otherwise he&#x2F;she will fall behind. </li>
+<li>Browser support, a huge headache. </li>
+<li>For backend applications, Node.js is not widely used like JAVA Spring do.</li>
+</ol>
+<h4 id="6-Explain-the-differences-between-mutable-and-immutable-objects"><a href="#6-Explain-the-differences-between-mutable-and-immutable-objects" class="headerlink" title="6. Explain the differences between mutable and immutable objects."></a>6. Explain the differences between mutable and immutable objects.</h4><p>Defination: A mutable object is an object whose state can be modified after it is created. Immutables are the objects whose state cannot be changed once the object is created. Strings and Numbers are Immutable.</p>
+<p>In JS, we got <strong>Primitive Data types</strong> and <strong>Non-Primitive Data types</strong>. Primitive Data types are been stored on the Stack in our memory. The stack is simply a stack of data that has a “LIFO” (last in, first out) data structure. The following types are Primitive types(<strong>Value types</strong>):</p>
+<blockquote>
+<p>Numbers, Boolean, String, Null, Undefined, Symbol</p>
+</blockquote>
+<p>The Non-Primitive Data types, also known as <strong>reference types</strong>, are been stored on the <strong>Heap</strong>. The Heap, indifference from the stack, has no order of how to store the data. You can think of it as it stores the data randomly, where each of the data has its own address. It is slower to access but has much more space since it handles more complex variables. When storing a reference type in memory, it adds a new element to the top of the stack when its value is a pointer&#x2F;reference to the address of the object that has been stored on the heap.<br>Non-Primitive Data types(<strong>reference types</strong>):</p>
+<blockquote>
+<p>Array, Object, Function, Date, Regex</p>
+</blockquote>
+<p>Each time a value type is been created, a new element gets into the top of the stack and stores the data of that variable. On the other hand, when creating a reference type a new element gets into the top of the stack but this time, it stores the reference&#x2F;pointer to the address location of the object in the heap. Then, when we assign the created object to a new object variable a new element gets into the top of the stack BUT with the same reference&#x2F;pointer to the first object.</p>
+<p>Therefore, when changing the data of a created object, all other objects that point to the same address location on the heap are being changed also. With that in mind, we can say that a value type is immutable where a reference type is mutable.</p>
+<h4 id="7-Use-JavaScript-to-implement-the-‘reactive’-and-‘computed’-functions-so-that-the-following-code-works-as-expected"><a href="#7-Use-JavaScript-to-implement-the-‘reactive’-and-‘computed’-functions-so-that-the-following-code-works-as-expected" class="headerlink" title="7. Use JavaScript to implement the ‘reactive’ and ‘computed’ functions so that the following code works as expected."></a>7. Use JavaScript to implement the ‘reactive’ and ‘computed’ functions so that the following code works as expected.</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> node = <span class="title function_">reactive</span>(&#123;</span><br><span class="line"><span class="attr">leftChildren</span>: <span class="number">1</span>,</span><br><span class="line"><span class="comment">// rightChildren: 0</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(node.<span class="property">leftChildren</span>, node.<span class="property">rightChildren</span>) <span class="comment">// 1 undefined</span></span><br><span class="line"><span class="keyword">const</span> children = <span class="title function_">computed</span>(<span class="function">() =&gt;</span> node.<span class="property">leftChildren</span> + (<span class="built_in">parseInt</span>(node.<span class="property">rightChildren</span>) ||</span><br><span class="line"><span class="number">0</span>))</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(children.<span class="property">value</span>) <span class="comment">// 1</span></span><br><span class="line">node.<span class="property">leftChildren</span> = <span class="number">10</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(children.<span class="property">value</span>) <span class="comment">// 10</span></span><br><span class="line">node.<span class="property">rightChildren</span> = <span class="number">2</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(children.<span class="property">value</span>) <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+
+<p>Answer:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">reactive</span> = (<span class="params">childrenObj</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> _node = &#123;&#125;;</span><br><span class="line">    <span class="keyword">let</span> left = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">let</span> right = <span class="literal">undefined</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(_node, <span class="string">&#x27;leftChildren&#x27;</span>, &#123;</span><br><span class="line">        <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> left;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="title function_">set</span>(<span class="params">newVal</span>) &#123;</span><br><span class="line">            left = newVal;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(_node, <span class="string">&#x27;rightChildren&#x27;</span>, &#123;</span><br><span class="line">        <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> right;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="title function_">set</span>(<span class="params">newVal</span>) &#123;</span><br><span class="line">            right = newVal;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    _node.<span class="property">leftChildren</span> = childrenObj.<span class="property">leftChildren</span>;</span><br><span class="line">    _node.<span class="property">rightChildren</span> = childrenObj.<span class="property">rightChildren</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">computed</span> = (<span class="params">fn</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> _obj = &#123;&#125;;</span><br><span class="line">    <span class="keyword">let</span> _value = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> func = fn;</span><br><span class="line">    _value = func.<span class="title function_">apply</span>(<span class="variable language_">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(_obj, <span class="string">&#x27;value&#x27;</span>, &#123;</span><br><span class="line">        <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(node &amp;&amp; func) &#123;</span><br><span class="line">                _value = func.<span class="title function_">apply</span>(<span class="variable language_">this</span>, node);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> _value;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> node = <span class="title function_">reactive</span>(&#123;</span><br><span class="line">    <span class="attr">leftChildren</span>: <span class="number">1</span>, <span class="comment">// rightChildren: 0</span></span><br><span class="line">    &#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(node.<span class="property">leftChildren</span>, node.<span class="property">rightChildren</span>) <span class="comment">// 1 undefined</span></span><br><span class="line"><span class="keyword">const</span> children = <span class="title function_">computed</span>(<span class="function">() =&gt;</span> (<span class="built_in">parseInt</span>(node.<span class="property">leftChildren</span>) || <span class="number">0</span>) + (<span class="built_in">parseInt</span>(node.<span class="property">rightChildren</span>) || <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(children.<span class="property">value</span>) <span class="comment">// 1</span></span><br><span class="line">node.<span class="property">leftChildren</span> = <span class="number">10</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(children.<span class="property">value</span>) <span class="comment">// 10</span></span><br><span class="line">node.<span class="property">rightChildren</span> = <span class="number">2</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(children.<span class="property">value</span>) <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="8-Given-a-number-of-rectangles-defined-by-their-width-height-and-location-x-y-of-their-top-left-corners-how-can-we-insert-a-new-rectangle-with-a-fixed-size-as-close-as-possible-to-a-desired-target-location-without-making-it-intersect-with-any-existing-rectangles"><a href="#8-Given-a-number-of-rectangles-defined-by-their-width-height-and-location-x-y-of-their-top-left-corners-how-can-we-insert-a-new-rectangle-with-a-fixed-size-as-close-as-possible-to-a-desired-target-location-without-making-it-intersect-with-any-existing-rectangles" class="headerlink" title="8. Given a number of rectangles defined by their width, height, and location (x, y) of their top-left corners, how can we insert a new rectangle(with a fixed size) as close as possible to a desired target location, without making it intersect with any existing rectangles?"></a>8. Given a number of rectangles defined by their width, height, and location (x, y) of their top-left corners, how can we insert a new rectangle(with a fixed size) as close as possible to a desired target location, without making it intersect with any existing rectangles?</h4><p>这道题我选择用中文来回答。</p>
+<p>我理解的题意是：有一些长方形（长，宽，位置排列信息）在容器内排列，如何在这个排列内的位置插入一个新的长方形，使它尽量不与其他的长方形相交叠。</p>
+<p>大概的思路就是，</p>
+<ol>
+<li>按照要插入的位置的（x, y），来计算在容器中的实际位置；</li>
+<li>根据实际坐标，能够大概计算到相邻的矩形</li>
+<li>根据相邻上矩形和左矩形的相对位置，根据现有矩形的长和宽来绘制当前矩形；最右和下矩形位置，根据长度和宽度来等量的位移。</li>
+<li>绘制好当前矩形后，相当于定点（x, y）插入了当前矩形，换句话说，当前插入的矩形覆盖了target location坐标；原来的矩形排列涉及重新绘制</li>
+</ol>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 miaozixiong@gmail.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2017-2020 TonyMiao
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

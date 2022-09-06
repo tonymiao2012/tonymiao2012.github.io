@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>React原理一把撸 | Tony Miao Official Website</title>
+  <meta name="keywords" content=" React ">
+  <meta name="description" content="React原理一把撸 | Tony Miao Official Website">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="1. What’s the time complexity of the following code, and why?1234567var a &#x3D; 0;for (var i &#x3D; 0; i &lt; N; i++) &amp;#123;   &#x2F;&#x2F; first iteration    for (var j &#x3D; N; j &gt; i; j--) &#x2F;&#x2F; second iteration    &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试题">
+<meta property="og:url" content="http://tonymiao.com/2022/09/04/%E6%B5%8B%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="Tony Miao Official Website">
+<meta property="og:description" content="1. What’s the time complexity of the following code, and why?1234567var a &#x3D; 0;for (var i &#x3D; 0; i &lt; N; i++) &amp;#123;   &#x2F;&#x2F; first iteration    for (var j &#x3D; N; j &gt; i; j--) &#x2F;&#x2F; second iteration    &amp;#123;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-09-04T12:28:34.000Z">
+<meta property="article:modified_time" content="2022-09-06T03:11:43.761Z">
+<meta property="article:author" content="Tony Miao">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>Tony Miao</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/tonymiao2012" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="instagram" href="https://www.instagram.com/tonymiao2012/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:miaozixiong@gmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=50881992" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active" data-rel="全部文章">全部文章<small>(14)</small></div></li>
+    
+        
+            
+            <li><div data-rel="深入JS">深入JS<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="HelloWorld">HelloWorld<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Hexo">Hexo<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="LeetCode">LeetCode<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="React">React<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ReactNative">ReactNative<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="TypeScript">TypeScript<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="14">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" />
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>面试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>前端router</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据结构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>HelloWorld</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>React</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react native</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 "
+           href="/2022/09/04/%E6%B5%8B%E8%AF%95%E9%A2%98/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="测试题">测试题</span>
+            <span class="post-date" title="2022-09-04 20:28:34">2022/09/04</span>
+        </a>
+        
+        <a  class="全部文章 React "
+           href="/2022/08/21/React%E5%8E%9F%E7%90%86%E4%B8%80%E6%8A%8A%E6%92%B8/"
+           data-tag="React"
+           data-author="" >
+            <span class="post-title" title="React原理一把撸">React原理一把撸</span>
+            <span class="post-date" title="2022-08-21 13:49:00">2022/08/21</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2022/08/20/%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/"
+           data-tag="前端router"
+           data-author="" >
+            <span class="post-title" title="前端路由原理">前端路由原理</span>
+            <span class="post-date" title="2022-08-20 21:30:15">2022/08/20</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2022/08/19/JS%E4%B8%AD%E7%9A%84this%E3%80%81%E9%97%AD%E5%8C%85%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS中的this、闭包、作用域链">JS中的this、闭包、作用域链</span>
+            <span class="post-date" title="2022-08-19 14:31:58">2022/08/19</span>
+        </a>
+        
+        <a  class="全部文章 TypeScript "
+           href="/2022/08/19/TS%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="TS基础总结">TS基础总结</span>
+            <span class="post-date" title="2022-08-19 14:19:03">2022/08/19</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2022/08/18/JS%E6%B7%B1%E6%8B%B7%E8%B4%9D%EF%BC%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JS深拷贝，浅拷贝">JS深拷贝，浅拷贝</span>
+            <span class="post-date" title="2022-08-18 16:02:57">2022/08/18</span>
+        </a>
+        
+        <a  class="全部文章 React "
+           href="/2022/08/15/React%E7%9F%A5%E8%AF%86%E7%82%B9%E6%BB%B4/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="React知识点滴（持续更新中）">React知识点滴（持续更新中）</span>
+            <span class="post-date" title="2022-08-15 11:59:20">2022/08/15</span>
+        </a>
+        
+        <a  class="全部文章 ReactNative "
+           href="/2022/08/15/React-Native%E4%BC%98%E5%8C%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"
+           data-tag="react native"
+           data-author="" >
+            <span class="post-title" title="React Native优化那些事儿(持续更新中)">React Native优化那些事儿(持续更新中)</span>
+            <span class="post-date" title="2022-08-15 11:18:02">2022/08/15</span>
+        </a>
+        
+        <a  class="全部文章 HelloWorld "
+           href="/2022/08/08/hello-world/"
+           data-tag="HelloWorld"
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2022-08-08 16:49:17">2022/08/08</span>
+        </a>
+        
+        <a  class="全部文章 深入JS "
+           href="/2021/04/12/JS-Promise%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/"
+           data-tag="前端"
+           data-author="" >
+            <span class="post-title" title="JS Promise原理及实现">JS Promise原理及实现</span>
+            <span class="post-date" title="2021-04-12 20:12:08">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2021/03/11/%E5%A4%8D%E7%9B%98%E8%87%AA%E7%9C%81/"
+           data-tag="面试"
+           data-author="" >
+            <span class="post-title" title="复盘自省">复盘自省</span>
+            <span class="post-date" title="2021-03-11 22:07:29">2021/03/11</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2021/03/09/CSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="CSS基础知识点">CSS基础知识点</span>
+            <span class="post-date" title="2021-03-09 13:18:26">2021/03/09</span>
+        </a>
+        
+        <a  class="全部文章 LeetCode "
+           href="/2020/10/12/LeetCode%E5%88%B7%E9%A2%98%E5%87%86%E5%A4%87%E4%B9%8B%E5%B8%B8%E7%94%A8JS%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="LeetCode刷题准备之常用JS数据结构">LeetCode刷题准备之常用JS数据结构</span>
+            <span class="post-date" title="2020-10-12 22:54:53">2020/10/12</span>
+        </a>
+        
+        <a  class="全部文章 Hexo "
+           href="/2020/10/07/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blog%E7%9A%84%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="使用Hexo搭建静态blog的心得体会">使用Hexo搭建静态blog的心得体会</span>
+            <span class="post-date" title="2020-10-07 17:57:27">2020/10/07</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-React原理一把撸" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">React原理一把撸</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="React">React</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">React</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-08-22 10:25:44'>2022-08-21 13:49</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6scheduler"><span class="toc-text">调度scheduler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fragment"><span class="toc-text">Fragment</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>尝试从零来自己实现撸react代码，从而更好的理解React原理。注意本文基于React 16.X版本</p>
+<blockquote>
+<p>粗浅的理解：先来看看什么是虚拟DOM。虚拟dom就是由真实的html标签生成的一个描述数据结构，里面包含当前层级的props，children，key等等的信息。当触发re-render时候，由react调度机制进行当前虚拟dom节点的<code>diff</code>操作，也就是比较当前dom节点是否有改变，如果有的话再进行真实dom操作，这样大大节省了dom节点操作的开销。当然虚拟dom的形成没有光依靠react官方提供的基础库，还依赖babel插件对jsx语法进行的转译，并形成解析后的中间产物，后面代码会有体现。先看下如果简单实现一个虚拟dom的大概思路：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 将：&lt;div class=&quot;div&quot;&gt;hello world&lt;/div&gt;转化为</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    &#123; </span></span><br><span class="line"><span class="comment">        type: &#x27;div&#x27;, </span></span><br><span class="line"><span class="comment">        props: &#123; </span></span><br><span class="line"><span class="comment">            class: &#x27;div&#x27;,</span></span><br><span class="line"><span class="comment">            children: [&#123; type: &#x27;&#x27;, props: &#123; nodeValue: &#x27;hello world&#x27; &#125;&#125;]</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> isArr = <span class="title class_">Array</span>.<span class="property">isArray</span></span><br><span class="line"><span class="keyword">const</span> toArray = arr = <span class="title function_">isArr</span>(arr ?? []) ? arr : [arr]</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">isText</span> = txt =&gt; <span class="keyword">typeof</span> txt === <span class="string">&#x27;string&#x27;</span> || <span class="keyword">typeof</span> txt === <span class="string">&#x27;number&#x27;</span></span><br><span class="line"><span class="comment">// 递归解析层级嵌套的arr，并在根节点创建一个VNode</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">flatten</span> = arr =&gt; [...arr.<span class="title function_">map</span>(<span class="function"><span class="params">ar</span> =&gt;</span> <span class="title function_">isArr</span>(ar) </span><br><span class="line">    ? [...<span class="title function_">faltten</span>(ar)] </span><br><span class="line">    : <span class="title function_">isText</span>(ar) ? <span class="title function_">createTextVNode</span>(ar) : ar)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">h</span>(<span class="params">type, props, ...kids</span>) &#123;</span><br><span class="line">    props = props ?? &#123;&#125;</span><br><span class="line">    kids = <span class="title function_">flatten</span>(<span class="title function_">toArray</span>(props.<span class="property">children</span> ?? kids)).<span class="title function_">filter</span>(<span class="title class_">Boolean</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(keys.<span class="property">length</span>) props.<span class="property">children</span> = kids.<span class="property">length</span> === <span class="number">1</span> ? kids[<span class="number">0</span>] : kids</span><br><span class="line">    <span class="comment">// 提取传入的ref和key元素</span></span><br><span class="line">    <span class="keyword">const</span> key = props.<span class="property">key</span> ?? <span class="literal">null</span></span><br><span class="line">    <span class="keyword">const</span> ref = props.<span class="property">ref</span> ?? <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> props.<span class="property">key</span></span><br><span class="line">    <span class="keyword">delete</span> props.<span class="property">ref</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">createVNode</span>(type, props, key, ref)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createTextVNode</span>(<span class="params">text</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">props</span>: &#123; <span class="attr">nodeValue</span>: text + <span class="string">&#x27;&#x27;</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createVNode</span>(<span class="params">type, props, key, ref</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        type, props, key, ref</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看完了上面的部分，可以再实现下HTML的部分，引用上面的函数进行VDOM创建：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">import</span> &#123; h &#125; <span class="keyword">from</span> <span class="string">&#x27;./index.js&#x27;</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// 引用时候，传入babel解析jsx后的标签，classname, 子元素dom描述等等。由h进行构造VDOM</span></span></span><br><span class="line"><span class="language-javascript">      <span class="title function_">h</span>(<span class="string">&#x27;div&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">        &#123; <span class="attr">className</span>: <span class="string">&#x27;container&#x27;</span> &#125;,</span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">h</span>(<span class="string">&#x27;div&#x27;</span>, &#123; <span class="attr">className</span>: <span class="string">&#x27;empty&#x27;</span> &#125;, <span class="string">&#x27;hello world!&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">      )</span></span><br><span class="line"><span class="language-javascript">    )</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;container&#x27;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;empty&#x27;</span>&gt;</span></span><br><span class="line">      hello world!</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>执行后可以看到VDom的信息结果。</p>
+<h4 id="调度scheduler"><a href="#调度scheduler" class="headerlink" title="调度scheduler"></a>调度scheduler</h4><p>接下来思考一下如何完成调度部分。React实现调度的原理是基于<code>[MessageChannel](https://developer.mozilla.org/zh-CN/docs/Web/API/MessageChannel)</code>这个WebAPI来实现零延时宏任务调度的。为什么不用<code>微任务</code>来做调度呢？因为微任务是优先级是高于<code>宏任务</code>的，而且触发时机是在render之前。所以并不满足调度的要求。简单看下MessageChannel是如何建立的。</p>
+<p>我们假设有一个页面，嵌套一个iframe子页面；在主页面里有输入框，当点击按钮（<code>click</code>）后，由主页面向子页面传递消息，并在子页面<code>iframe</code>里面接收消息并输出显示。就这样一个功能。代码实现大概如下：</p>
+<p>主页面：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> input = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;message-input&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> output = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;message-output&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> button = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;button&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> iframe = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;iframe&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> channel = <span class="keyword">new</span> <span class="title class_">MessageChannel</span>();</span><br><span class="line"><span class="keyword">const</span> port1 = channel.<span class="property">port1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Wait for the iframe to load</span></span><br><span class="line">iframe.<span class="title function_">addEventListener</span>(<span class="string">&quot;load&quot;</span>, onLoad);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onLoad</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// Listen for button clicks</span></span><br><span class="line">  button.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, onClick);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Listen for messages on port1</span></span><br><span class="line">  port1.<span class="property">onmessage</span> = onMessage;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 向iframe传入消息port2参数</span></span><br><span class="line">  iframe.<span class="property">contentWindow</span>.<span class="title function_">postMessage</span>(<span class="string">&#x27;init&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, [channel.<span class="property">port2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Post a message on port1 when the button is clicked</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onClick</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  e.<span class="title function_">preventDefault</span>();</span><br><span class="line">  port1.<span class="title function_">postMessage</span>(input.<span class="property">value</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Handle messages received on port</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onMessage</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  output.<span class="property">innerHTML</span> = e.<span class="property">data</span>;</span><br><span class="line">  input.<span class="property">value</span> = <span class="string">&#x27;&#x27;</span>; <span class="comment">//收到消息后清空input框</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其中，<code>iframe.contentWindow.postMessage</code>参数说明如下：</p>
+<blockquote>
+<ol>
+<li>The message being sent. For this initial port transferring this message could be an empty string but in this example it is set to ‘init’.</li>
+<li>The origin the message is to be sent to. * means “any origin”.</li>
+<li>An object, the ownership of which is transferred to the receiving browsing context. In this case, we are transferring MessageChannel.port2 to the IFrame, so it can be used to communicate with the main page.</li>
+</ol>
+</blockquote>
+<p>子页面接收：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> list = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;ul&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> port2;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Listen for the initial port transfer message</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;message&#x27;</span>, initPort);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Setup the transferred port</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">initPort</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  port2 = e.<span class="property">ports</span>[<span class="number">0</span>];   <span class="comment">// 获取port2传入</span></span><br><span class="line">  port2.<span class="property">onmessage</span> = onMessage;  <span class="comment">// 监听消息，定义处理函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Handle messages received on port2</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onMessage</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> listItem = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;li&#x27;</span>);</span><br><span class="line">  listItem.<span class="property">textContent</span> = e.<span class="property">data</span>;</span><br><span class="line">  list.<span class="title function_">appendChild</span>(listItem);</span><br><span class="line">  port2.<span class="title function_">postMessage</span>(<span class="string">`Message received by IFrame: &quot;<span class="subst">$&#123;e.data&#125;</span>&quot;`</span>); <span class="comment">// 向port1传递已接受消息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就完成了从主页面到子页面相互隔离的环境下的消息通信。</p>
+<p>进一步思考，还有个webAPI叫<code>requestIdleCallback</code>的方法，也可以用作任务调度，而且是利用空闲时间片处理任务。听上去是既能执行任务调度，又能压榨浏览器性能，分片时间就能吧任务执行完了。可是现实很残酷，没有被React团队采用也是有他的理由的。用这个API是有<code>50ms性能优化问题</code>，按照我的理解，大概为：<strong>长任务是指执行耗时在 50ms 以上的任务，而Chrome 浏览器页面渲染和 V8 引擎用的是一个线程，如果 JS 脚本执行耗时太长，就会阻塞渲染线程，进而导致页面卡顿。</strong></p>
+<p>但是我们也来理解下这个API，从它的参数开始看：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 接受回调任务</span></span><br><span class="line">typeRequestIdleCallback = <span class="function">(<span class="params">cb: (deadline: Deadline) =&gt; <span class="keyword">void</span>, options?: Options</span>) =&gt;</span>number</span><br><span class="line"><span class="comment">// 回调函数接受的参数</span></span><br><span class="line">typeDeadline = &#123;</span><br><span class="line">    <span class="attr">timeRemaining</span>: <span class="function">()=&gt;</span>number<span class="comment">// 当前剩余的可用时间。即该帧剩余时间。</span></span><br><span class="line">    <span class="attr">didTimeout</span>: boolean<span class="comment">// 是否超时。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结合上面参数，看个简单的demo:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一万个任务，这里使用 ES2021 数值分隔符</span></span><br><span class="line"><span class="keyword">const</span> unit = <span class="number">10_000</span>;</span><br><span class="line"><span class="comment">// 单个任务需要处理如下</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">onOneUnit</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= <span class="number">500_000</span>; i++) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 每个任务预留执行时间 1ms</span></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">FREE_TIME</span> = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// 执行到第几个任务</span></span><br><span class="line"><span class="keyword">let</span> _u = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">cb</span>(<span class="params">deadline</span>) &#123;</span><br><span class="line">    <span class="comment">// 当任务还没有被处理完 &amp; 一帧还有的空闲时间 &gt; 1ms</span></span><br><span class="line">    <span class="keyword">while</span>(_u &lt; unit &amp;&amp; deadline.<span class="title function_">timeRemaining</span>() &gt; <span class="variable constant_">FREE_TIME</span>) &#123;</span><br><span class="line">        <span class="title function_">onOneUnit</span>();</span><br><span class="line">        _u++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 任务干完</span></span><br><span class="line">    <span class="keyword">if</span>(_u &gt;= unit) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 任务没完成, 继续等空闲执行 </span></span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">requestIdleCallback</span>(cb)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">requestIdleCallback</span>(cb)</span><br></pre></td></tr></table></figure>
+
+<p>故事到这里，其实还有几个备选的疑问，我在这里统一罗列下吧：</p>
+<ol>
+<li>调度为什么不选用<code>setTimeout</code>? -&gt; setTimeout有坑，执行会有4ms延迟。</li>
+<li>为什么不选用<code>web worker</code>来做？ -&gt; 浏览器底层算法，会引起<code>结构化克隆</code>。数据量大会有很大的性能问题</li>
+<li>消息调度很像<code>generator</code>的机制，为什么没有采用？用团队原话：**”The generators are stateful. You cannot resume it in the middle of it.”**换句话说，generator不能中断，只能从头再来。</li>
+</ol>
+<hr>
+<p>扯的远了，我们再来看下调度如何来实现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// scheduler</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * schedule -&gt; 把任务放进一个队列，然后开始（以某种节奏[ric (requestIdleCallback)]执行）</span></span><br><span class="line"><span class="comment"> * shouldYield -&gt; should yield -&gt; generator yiled. (本质上，就是返回 true/false 的函数)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> queue = []</span><br><span class="line"><span class="keyword">const</span> threshold = <span class="number">1000</span> / <span class="number">60</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// git transtions</span></span><br><span class="line"><span class="keyword">const</span> transtions = []</span><br><span class="line"><span class="keyword">let</span> deadline = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">now</span> = (<span class="params"></span>) =&gt; performance.<span class="title function_">now</span>()</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">peek</span> = arr =&gt; arr[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">startTranstion</span>(<span class="params">cb</span>) &#123;</span><br><span class="line">  transtions.<span class="title function_">push</span>(cb) &amp;&amp; <span class="title function_">postMessage</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 二合一，push / exec</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">schedule</span> (cb) &#123;</span><br><span class="line">  queue.<span class="title function_">push</span>(&#123; cb &#125;)</span><br><span class="line">  <span class="title function_">startTranstion</span>(flush)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发宏任务，渲染 / 宏任务</span></span><br><span class="line"><span class="keyword">const</span> postMessage = (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">cb</span> = (<span class="params"></span>) =&gt; transtions.<span class="title function_">splice</span>(<span class="number">0</span>, <span class="number">1</span>).<span class="title function_">forEach</span>(<span class="function"><span class="params">c</span> =&gt;</span> <span class="title function_">c</span>())</span><br><span class="line">  <span class="keyword">const</span> &#123; port1, port2 &#125; = <span class="keyword">new</span> <span class="title class_">MessageChannel</span>()</span><br><span class="line">  port1.<span class="property">onmessage</span> = cb</span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> port2.<span class="title function_">postMessage</span>(<span class="literal">null</span>)</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">shouldYield</span> () &#123;</span><br><span class="line">  <span class="keyword">return</span> navigator.<span class="property">scheduling</span>.<span class="title function_">isInputPending</span>() || <span class="title function_">now</span>() &gt;= deadline</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">flush</span>(<span class="params"></span>) &#123;</span><br><span class="line">  deadline = <span class="title function_">now</span>() + threshold</span><br><span class="line">  <span class="keyword">let</span> task = <span class="title function_">peek</span>(queue)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(task &amp;&amp; !<span class="title function_">shouldYield</span>()) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; cb &#125; = task</span><br><span class="line">    task.<span class="property">cb</span> = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">const</span> next = <span class="title function_">cb</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (next &amp;&amp; <span class="keyword">typeof</span> next === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">      task.<span class="property">cb</span> = next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      queue.<span class="title function_">shift</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    task = <span class="title function_">peek</span>(queue)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  task &amp;&amp; <span class="title function_">startTranstion</span>(flush)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="Fragment"><a href="#Fragment" class="headerlink" title="Fragment"></a>Fragment</h4><p>很简单的原理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">Fragment</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> props.<span class="property">children</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 miaozixiong@gmail.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2017-2020 TonyMiao
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
